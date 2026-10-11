@@ -1,140 +1,52 @@
-<!DOCTYPE html>
+<!DOCTYPE1 html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10,000 Failures Tracker // Y2K Fall Edition</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: VT323 & Comic Neue / MS Sans Serif style font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen&family=Public+Pixel&family=Patrick+Hand&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
-
+    <title>10,000 Failures // Harvest Logs</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,400&family=Gloria+Hallelujah&display=swap" rel="stylesheet">
     <style>
         :root {
-            --fall-orange: #d96b27;
-            --fall-burgundy: #6b1d2f;
-            --fall-amber: #e59832;
-            --fall-moss: #506138;
-            --fall-bg: #211210;
-            --fall-paper: #f4e8d3;
-            --win-border-light: #f7d0a1;
-            --win-border-dark: #3a1c14;
+            --bg-base: #2b1f1d;
+            --bg-pattern: #1f1514;
+            --win-bg: #f4ede2;
+            --win-header-1: #8c3a2b;
+            --win-header-2: #5c2218;
+            --win-border: #3d1c16;
+            --win-inner-border: #dfd3c3;
+            --text-dark: #2a1a17;
+            --text-muted: #6e5b54;
+            --accent-amber: #d97724;
+            --accent-gold: #e5a93b;
+            --accent-moss: #556b2f;
+            --accent-rust: #a04000;
+            --accent-berry: #800020;
+            --shadow-hard: 4px 4px 0px rgba(0,0,0,0.4);
+            --inset-shadow: inset 2px 2px 4px rgba(0,0,0,0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
         }
 
         body {
-            background-color: #1a0b0a;
+            background-color: var(--bg-base);
             background-image: 
-                radial-gradient(#3a1b14 15%, transparent 16%),
-                radial-gradient(#2d120a 15%, transparent 16%);
+                radial-gradient(var(--bg-pattern) 15%, transparent 16%),
+                radial-gradient(var(--bg-pattern) 15%, transparent 16%);
             background-size: 30px 30px;
             background-position: 0 0, 15px 15px;
-            font-family: 'Outfit', sans-serif;
-            color: #2e1c14;
+            font-family: 'Chakra Petch', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 15px;
             overflow-x: hidden;
+            position: relative;
         }
 
-        .pixel-font {
-            font-family: 'VT323', monospace;
-        }
-
-        .silkscreen {
-            font-family: 'Silkscreen', cursive;
-        }
-
-        .handwritten {
-            font-family: 'Patrick Hand', cursive;
-        }
-
-        /* Skeuomorphic Window Styles */
-        .y2k-window {
-            background: linear-gradient(135deg, #fcefdc 0%, #edd8b8 100%);
-            border: 3px solid #6b1d2f;
-            box-shadow: 
-                inset 2px 2px 0px #fff7ec,
-                inset -2px -2px 0px #ab7a52,
-                6px 8px 0px rgba(0, 0, 0, 0.4);
-            border-radius: 8px;
-        }
-
-        .y2k-window-header {
-            background: linear-gradient(90deg, #6b1d2f 0%, #9e3623 50%, #d96b27 100%);
-            color: #ffe6cc;
-            text-shadow: 1px 1px 2px #210803;
-            border-bottom: 2px solid #3a1c14;
-        }
-
-        /* Skeuomorphic Button Styles */
-        .y2k-btn {
-            background: linear-gradient(180deg, #fce5c8 0%, #e3ab72 50%, #cc8b4b 100%);
-            border: 2px solid #522312;
-            border-radius: 5px;
-            box-shadow: 
-                inset 1px 1px 0px #ffffff,
-                inset -1px -1px 0px #824f22,
-                2px 2px 0px rgba(0,0,0,0.3);
-            text-shadow: 0px 1px 0px #ffeedd;
-            transition: all 0.05s ease;
-            font-weight: 700;
-        }
-
-        .y2k-btn:active {
-            transform: translate(1px, 1px);
-            box-shadow: 
-                inset -1px -1px 0px #ffffff,
-                inset 1px 1px 0px #824f22,
-                1px 1px 0px rgba(0,0,0,0.3);
-            background: linear-gradient(180deg, #cc8b4b 0%, #e3ab72 100%);
-        }
-
-        .y2k-btn-primary {
-            background: linear-gradient(180deg, #f28b44 0%, #d96b27 50%, #ab4609 100%);
-            color: #ffffff;
-            text-shadow: 1px 1px 2px #421800;
-            border-color: #421800;
-        }
-
-        .y2k-btn-primary:active {
-            background: linear-gradient(180deg, #ab4609 0%, #d96b27 100%);
-        }
-
-        /* Win Media Player Frosted Glass Effect */
-        .glass-player {
-            background: rgba(237, 216, 184, 0.75);
-            backdrop-filter: blur(8px);
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 32px 0 rgba(40, 10, 5, 0.37);
-        }
-
-        /* Retro LCD Screen Display */
-        .lcd-display {
-            background-color: #2b3a1a;
-            color: #92e034;
-            font-family: 'VT323', monospace;
-            text-shadow: 0 0 6px rgba(146, 224, 52, 0.6);
-            border: 2px solid #1a2410;
-            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.8);
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 12px;
-            height: 12px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #d4bc96;
-            border: 1px solid #7c5837;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #e09753 0%, #a35d1e 100%);
-            border: 1px solid #ffffff;
-            box-shadow: inset -1px -1px 0px #502e0e;
-        }
-
-        /* Canvas Leaf Overlay */
         #leaf-canvas {
             position: fixed;
             top: 0;
@@ -142,355 +54,801 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 99;
+            z-index: 999;
         }
 
-        /* Custom Stamp/Sticker Badge */
-        .sticker-badge {
-            transform: rotate(-3deg);
-            transition: transform 0.2s ease, filter 0.2s;
-            filter: drop-shadow(2px 3px 0px rgba(0,0,0,0.25));
-        }
-        .sticker-badge:hover {
-            transform: rotate(2deg) scale(1.08);
-            filter: drop-shadow(3px 5px 0px rgba(0,0,0,0.3));
+        .desktop-container {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Tab Active State */
-        .y2k-tab {
-            background: linear-gradient(180deg, #ddc197 0%, #b89263 100%);
-            border: 2px solid #522312;
+        .win-panel {
+            background: var(--win-bg);
+            border: 3px solid var(--win-border);
+            box-shadow: var(--shadow-hard);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .win-header {
+            background: linear-gradient(90deg, var(--win-header-1), var(--win-header-2));
+            color: #fcebe6;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--win-border);
+            text-shadow: 1px 1px 0px #000;
+        }
+
+        .win-header-controls {
+            display: flex;
+            gap: 4px;
+        }
+
+        .win-btn {
+            width: 14px;
+            height: 14px;
+            border: 1px solid #1a0805;
+            background: #d4a373;
+            box-shadow: inset 1px 1px 0px #fff;
+            cursor: pointer;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .win-btn:active {
+            box-shadow: inset -1px -1px 0px #fff;
+        }
+
+        .win-btn.close { background: #c94a29; color: #fff; }
+
+        .win-body {
+            padding: 16px;
+        }
+
+        .header-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            background: #e6dac8;
+            border: 2px inset var(--win-inner-border);
+            padding: 12px;
+            border-radius: 4px;
+        }
+
+        .title-group h1 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem;
+            color: var(--accent-rust);
+            text-shadow: 2px 2px 0px #fcebe6, 3px 3px 0px var(--win-border);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subtitle {
+            font-family: 'Gloria Hallelujah', cursive;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        .status-display {
+            background: #12100e;
+            border: 2px solid #5c4a3e;
+            padding: 8px 14px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--inset-shadow);
+        }
+
+        .digital-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .digital-label {
+            font-size: 0.65rem;
+            color: #a89485;
+            font-family: 'Press Start 2P', monospace;
+            margin-bottom: 2px;
+        }
+
+        .digital-value {
+            font-family: 'VT323', monospace;
+            font-size: 1.8rem;
+            color: #ff9d00;
+            text-shadow: 0 0 5px rgba(255, 157, 0, 0.6);
+            line-height: 1;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+            border-bottom: 2px solid var(--win-border);
+            padding-left: 10px;
+            margin-top: 10px;
+            background: #d8c8b4;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            background: #bfaea0;
+            border: 2px solid var(--win-border);
             border-bottom: none;
             border-radius: 6px 6px 0 0;
-            margin-bottom: -2px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.65rem;
+            cursor: pointer;
+            color: var(--text-dark);
+            transition: background 0.1s;
         }
-        .y2k-tab.active {
-            background: linear-gradient(180deg, #fcefdc 0%, #edd8b8 100%);
-            border-bottom: 2px solid #edd8b8;
+
+        .tab-btn.active {
+            background: var(--win-bg);
+            border-bottom: 2px solid var(--win-bg);
+            margin-bottom: -2px;
             font-weight: bold;
-            z-index: 10;
+            color: var(--accent-rust);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #cfc0b2;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed #c0b09d;
+            padding-bottom: 8px;
+        }
+
+        .section-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.85rem;
+            color: var(--win-header-2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .y2k-btn {
+            background: linear-gradient(180deg, #f0dfcc 0%, #d4bf9d 100%);
+            border: 2px solid var(--win-border);
+            box-shadow: 2px 2px 0px #000;
+            padding: 6px 12px;
+            font-family: 'Chakra Petch', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 3px;
+        }
+
+        .y2k-btn:hover {
+            background: linear-gradient(180deg, #fcebe6 0%, #e0c8aa 100%);
+            color: var(--accent-rust);
+        }
+
+        .y2k-btn:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px #000;
+        }
+
+        .y2k-btn.primary {
+            background: linear-gradient(180deg, #e07a5f 0%, #b24d35 100%);
+            color: #fff;
+            text-shadow: 1px 1px 0px #000;
+        }
+
+        .y2k-btn.primary:hover {
+            background: linear-gradient(180deg, #ea8a6f 0%, #c25d45 100%);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-card {
+            background: #eaddcb;
+            border: 2px solid var(--win-border);
+            border-radius: 5px;
+            padding: 12px;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+        }
+
+        .skill-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .skill-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dark);
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .skill-cat-badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 1px solid var(--win-border);
+            font-weight: bold;
+            background: #fff;
+            text-transform: uppercase;
+        }
+
+        .log-display-area {
+            background: #1a1614;
+            border: 2px inset #5c4a3e;
+            padding: 10px;
+            border-radius: 4px;
+            color: #f0e6d2;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .count-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .count-big {
+            font-family: 'VT323', monospace;
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+            line-height: 1;
+            text-shadow: 0 0 3px rgba(229, 169, 59, 0.4);
+        }
+
+        .count-target {
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            color: #a89485;
+        }
+
+        .progress-outer {
+            height: 16px;
+            background: #2a221e;
+            border: 1px solid #5c4a3e;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .progress-inner {
+            height: 100%;
+            background: linear-gradient(90deg, #d97724, #e5a93b);
+            width: 0%;
+            transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .progress-inner::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%);
+        }
+
+        .log-scale-text {
+            font-size: 0.65rem;
+            color: #a89485;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .btn-bump {
+            flex: 2;
+            padding: 8px;
+            font-size: 0.8rem;
+        }
+
+        .btn-log {
+            flex: 1;
+            padding: 8px;
+            font-size: 0.75rem;
+        }
+
+        .card-menu {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .card-menu:hover {
+            color: var(--accent-rust);
+        }
+
+        .journal-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .journal-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-box {
+            background: #e6dac8;
+            border: 2px solid var(--win-border);
+            padding: 12px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.6rem;
+            color: var(--win-header-2);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            padding: 8px;
+            background: #fbf8f3;
+            border: 2px inset #c0b09d;
+            border-radius: 3px;
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-amber);
+            background: #fff;
+        }
+
+        .entry-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .entry-card {
+            background: #fff8ee;
+            border: 2px solid var(--win-border);
+            padding: 10px;
+            border-radius: 4px;
+            position: relative;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        .entry-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background: var(--accent-amber);
+            border-radius: 2px 0 0 2px;
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            border-bottom: 1px dashed #d0c0b0;
+            padding-bottom: 4px;
+        }
+
+        .entry-skill {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.65rem;
+            color: var(--accent-rust);
+        }
+
+        .entry-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: 'VT323', monospace;
+        }
+
+        .entry-note {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            white-space: pre-wrap;
+            line-height: 1.3;
+        }
+
+        .entry-count-tag {
+            display: inline-block;
+            margin-top: 6px;
+            background: #eaddcb;
+            border: 1px solid var(--win-border);
+            padding: 1px 6px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .sticker-item {
+            background: #e2d5c3;
+            border: 2px dashed #b0a08d;
+            border-radius: 8px;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .sticker-item.unlocked {
+            background: #fff;
+            border: 2px solid var(--win-border);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.15);
+            transform: rotate(-1deg);
+        }
+
+        .sticker-item.unlocked:nth-child(even) {
+            transform: rotate(2deg);
+        }
+
+        .sticker-icon {
+            font-size: 2.5rem;
+            filter: grayscale(100%) opacity(0.3);
+            transition: all 0.3s;
+        }
+
+        .sticker-item.unlocked .sticker-icon {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.1);
+        }
+
+        .sticker-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        .sticker-item.unlocked .sticker-title {
+            color: var(--accent-rust);
+        }
+
+        .sticker-desc {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .sticker-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #c94a29;
+            color: #fff;
+            font-size: 0.55rem;
+            font-family: 'Press Start 2P', monospace;
+            padding: 2px 4px;
+            border-radius: 3px;
+            display: none;
+        }
+
+        .sticker-item.unlocked .sticker-badge {
+            display: block;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(20, 10, 8, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            padding: 15px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 450px;
+            transform: scale(0.9);
+            transition: transform 0.2s;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #a89485;
+            margin-top: 10px;
+            font-family: 'Gloria Hallelujah', cursive;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-style: italic;
+            border: 2px dashed #c0b09d;
+            border-radius: 4px;
+            grid-column: 1 / -1;
+        }
+
+        .audio-toggle {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: #fcebe6;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body>
 
-    <!-- Leaf Particle Canvas -->
     <canvas id="leaf-canvas"></canvas>
 
-    <!-- Top Navigation Bar (Y2K Desktop Toolbar Style) -->
-    <header class="bg-gradient-to-r from-amber-950 via-amber-900 to-red-950 text-amber-100 p-2 border-b-4 border-amber-700 shadow-lg sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center border-2 border-amber-300 shadow-inner">
-                    <i class="fa-solid fa-leaf text-amber-100 text-lg animate-pulse"></i>
-                </div>
-                <div>
-                    <h1 class="silkscreen text-base sm:text-xl tracking-wider text-amber-200 drop-shadow">FAILURES_10K.EXE</h1>
-                    <p class="text-xs text-amber-300/80 hidden sm:block handwritten text-sm">"10,000 stumbles pave the golden autumn road..."</p>
+    <div class="desktop-container">
+        
+        <div class="win-panel">
+            <div class="win-header">
+                <span>🍂 HARVEST_LOGS_v1.0.EXE</span>
+                <div class="win-header-controls">
+                    <button class="audio-toggle" id="audio-btn" title="Toggle Sound">🔊</button>
+                    <div class="win-btn">_</div>
+                    <div class="win-btn">□</div>
+                    <div class="win-btn close">X</div>
                 </div>
             </div>
 
-            <div class="flex items-center space-x-2 text-xs">
-                <!-- Retro Audio Sound FX Toggle -->
-                <button id="sound-toggle" onclick="toggleAudio()" class="y2k-btn px-3 py-1 flex items-center gap-1.5 text-amber-950">
-                    <i class="fa-solid fa-volume-high text-amber-800" id="sound-icon"></i>
-                    <span class="pixel-font text-sm">SFX: ON</span>
-                </button>
-
-                <!-- Weather/Vibe Widget -->
-                <div class="hidden md:flex items-center gap-2 bg-amber-950/60 px-3 py-1 rounded-md border border-amber-700/50">
-                    <i class="fa-solid fa-cloud-sun text-amber-400"></i>
-                    <span class="pixel-font text-amber-200 text-sm">AUTUMN '04 // 62°F COZY</span>
+            <div class="win-body">
+                
+                <div class="header-bar">
+                    <div class="title-group">
+                        <h1>🍁 10,000 FAILURES</h1>
+                        <div class="subtitle">"The path to mastery is built on 10,000 stumbles."</div>
+                    </div>
+                    <div class="status-display">
+                        <div class="digital-stat">
+                            <span class="digital-label">TOTAL ATTEMPTS</span>
+                            <span class="digital-value" id="stat-total-attempts">000,000</span>
+                        </div>
+                        <div class="digital-stat">
+                            <span class="digital-label">ACTIVE PURSUITS</span>
+                            <span class="digital-value" id="stat-active-skills">00</span>
+                        </div>
+                    </div>
                 </div>
 
-                <button onclick="openModal('new-skill-modal')" class="y2k-btn y2k-btn-primary px-3 py-1 text-xs sm:text-sm flex items-center gap-1">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>NEW SKILL</span>
-                </button>
+                <div class="nav-tabs">
+                    <button class="tab-btn active" onclick="switchTab('tab-pursuits')">PURSUITS</button>
+                    <button class="tab-btn" onclick="switchTab('tab-journal')">REFLECTIONS</button>
+                    <button class="tab-btn" onclick="switchTab('tab-stickers')">STICKER ALBUM</button>
+                </div>
+
+                <div style="background: var(--win-bg); border: 2px solid var(--win-border); border-top: none; padding: 15px; border-radius: 0 0 4px 4px;">
+                    
+                    <div id="tab-pursuits" class="tab-content active">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <span>🛠️ MASTER PURSUITS</span>
+                            </div>
+                            <button class="y2k-btn primary" onclick="openAddSkillModal()">+ NEW PURSUIT</button>
+                        </div>
+                        <div class="skills-grid" id="skills-container"></div>
+                    </div>
+
+                    <div id="tab-journal" class="tab-content">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <span>📖 FAILURE JOURNAL</span>
+                            </div>
+                        </div>
+                        <div class="journal-layout">
+                            <div class="form-box">
+                                <div style="font-family: 'Press Start 2P', monospace; font-size: 0.65rem; color: var(--accent-rust); margin-bottom: 5px;">
+                                    LOG AN ATTEMPT
+                                </div>
+                                <div class="form-group">
+                                    <label for="journal-skill-select">PURSUIT</label>
+                                    <select id="journal-skill-select" class="form-select"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="journal-count-input">FAILURES ADDED</label>
+                                    <input type="number" id="journal-count-input" class="form-input" value="1" min="1" max="1000">
+                                </div>
+                                <div class="form-group">
+                                    <label for="journal-note-input">REFLECTION / LEARNING</label>
+                                    <textarea id="journal-note-input" class="form-textarea" placeholder="What went wrong? What did you learn?"></textarea>
+                                </div>
+                                <button class="y2k-btn primary" onclick="saveJournalEntry()">RECORD REFLECTION</button>
+                            </div>
+
+                            <div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <span style="font-size: 0.75rem; font-family: 'Press Start 2P', monospace; color: var(--text-muted);">RECENT LOGS</span>
+                                    <select id="journal-filter" class="form-select" style="padding: 2px 6px; font-size: 0.75rem;" onchange="renderJournal()">
+                                        <option value="ALL">Show All Pursuits</option>
+                                    </select>
+                                </div>
+                                <div class="entry-list" id="journal-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-stickers" class="tab-content">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <span>🏷️ MILESTONE STICKERS</span>
+                            </div>
+                        </div>
+                        <div class="album-grid" id="stickers-container"></div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
-    </header>
 
-    <!-- Main Content Container -->
-    <main class="max-w-6xl mx-auto w-full p-3 sm:p-6 space-y-6 flex-grow">
-
-        <!-- Banner & Marquee Status -->
-        <div class="y2k-window p-3 relative overflow-hidden">
-            <div class="flex items-center justify-between bg-amber-900/10 p-2 rounded border border-amber-800/20 mb-2">
-                <div class="flex items-center space-x-2">
-                    <span class="inline-block w-3 h-3 rounded-full bg-red-500 border border-amber-950"></span>
-                    <span class="inline-block w-3 h-3 rounded-full bg-amber-500 border border-amber-950"></span>
-                    <span class="inline-block w-3 h-3 rounded-full bg-green-500 border border-amber-950"></span>
-                    <span class="pixel-font text-sm text-amber-900 font-bold ml-2">SYSTEM STATUS: MASTERY IN PROGRESS</span>
-                </div>
-                <div id="digital-clock" class="lcd-display px-2 py-0.5 rounded text-xs tracking-widest">
-                    00:00:00 AM
-                </div>
-            </div>
-
-            <div class="bg-amber-950 text-amber-300 px-3 py-1 rounded text-xs silkscreen overflow-hidden whitespace-nowrap">
-                <div id="marquee-text" class="inline-block animate-marquee">
-                    🍁 REPETITION IS THE MOTHER OF SKILL 🍁 EVERY FAILURE IS A REPETITION LOGGED 🍁 TARGET: 10,000 ATTEMPTS 🍁 FAILING FORWARD SINCE 2004 🍁
-                </div>
-            </div>
+        <div class="footer-note">
+            System Operational // 2000s Coziness // Designed for continuous growth
         </div>
+    </div>
 
-        <!-- Global Stats Ribbon -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div class="y2k-window p-3 text-center">
-                <div class="text-xs uppercase font-bold text-amber-900/70 silkscreen">Total Repeats Logged</div>
-                <div id="stat-total-repeats" class="pixel-font text-3xl sm:text-4xl text-amber-900 font-bold">0</div>
-                <div class="text-[10px] text-amber-800 handwritten">Across all active pursuits</div>
-            </div>
-            <div class="y2k-window p-3 text-center">
-                <div class="text-xs uppercase font-bold text-amber-900/70 silkscreen">Active Pursuits</div>
-                <div id="stat-active-skills" class="pixel-font text-3xl sm:text-4xl text-red-900 font-bold">0</div>
-                <div class="text-[10px] text-amber-800 handwritten">Skills being mastered</div>
-            </div>
-            <div class="y2k-window p-3 text-center">
-                <div class="text-xs uppercase font-bold text-amber-900/70 silkscreen">Total Milestones</div>
-                <div id="stat-milestones" class="pixel-font text-3xl sm:text-4xl text-amber-700 font-bold">0 / 0</div>
-                <div class="text-[10px] text-amber-800 handwritten">Stickers unlocked</div>
-            </div>
-            <div class="y2k-window p-3 text-center">
-                <div class="text-xs uppercase font-bold text-amber-900/70 silkscreen">Overall Mastery</div>
-                <div id="stat-overall-percent" class="pixel-font text-3xl sm:text-4xl text-emerald-800 font-bold">0.0%</div>
-                <div class="text-[10px] text-amber-800 handwritten">Path to 10,000 average</div>
-            </div>
-        </div>
-
-        <!-- Navigation Tabs -->
-        <div class="flex space-x-2 border-b-2 border-amber-900/40 px-2">
-            <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="y2k-tab active px-4 py-2 text-sm text-amber-950 font-bold flex items-center gap-2">
-                <i class="fa-solid fa-border-all"></i>
-                <span>PURSUITS DASHBOARD</span>
-            </button>
-            <button onclick="switchTab('journal')" id="tab-btn-journal" class="y2k-tab px-4 py-2 text-sm text-amber-950 flex items-center gap-2">
-                <i class="fa-solid fa-book-bookmark"></i>
-                <span>THE FAILURE JOURNAL</span>
-            </button>
-            <button onclick="switchTab('milestones')" id="tab-btn-milestones" class="y2k-tab px-4 py-2 text-sm text-amber-950 flex items-center gap-2">
-                <i class="fa-solid fa-certificate"></i>
-                <span>BADGES & STICKERS</span>
-            </button>
-        </div>
-
-        <!-- TAB CONTENT 1: SKILLS DASHBOARD -->
-        <section id="tab-dashboard" class="space-y-6">
-            <!-- Grid of Skill Cards -->
-            <div id="skills-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Dynamically populated skills cards go here -->
-            </div>
-
-            <!-- Empty State -->
-            <div id="empty-skills-state" class="hidden y2k-window p-8 text-center space-y-4">
-                <div class="w-16 h-16 bg-amber-200 rounded-full flex items-center justify-center mx-auto border-2 border-amber-700 text-amber-800 text-2xl">
-                    <i class="fa-solid fa-compass-drafting"></i>
+    <div class="modal-overlay" id="add-skill-modal">
+        <div class="win-panel modal-card">
+            <div class="win-header">
+                <span>CREATE_NEW_PURSUIT.EXE</span>
+                <div class="win-header-controls">
+                    <div class="win-btn close" onclick="closeAddSkillModal()">X</div>
                 </div>
-                <h3 class="silkscreen text-lg text-amber-950">NO MASTERY PURSUITS ADDED YET!</h3>
-                <p class="text-sm text-amber-900 max-w-md mx-auto">
-                    According to the 10,000 Failures Theory, complete mastery requires roughly 10,000 deliberate attempts, experiments, or stumbles. Start your journey today!
-                </p>
-                <button onclick="openModal('new-skill-modal')" class="y2k-btn y2k-btn-primary px-6 py-2 text-sm">
-                    <i class="fa-solid fa-plus mr-1"></i> CREATE FIRST PURSUIT
-                </button>
             </div>
-        </section>
-
-        <!-- TAB CONTENT 2: REFLECTION JOURNAL -->
-        <section id="tab-journal" class="hidden space-y-4">
-            <div class="y2k-window p-4">
-                <div class="y2k-window-header p-2 rounded -mt-2 -mx-2 mb-4 flex justify-between items-center">
-                    <span class="silkscreen text-xs sm:text-sm"><i class="fa-solid fa-feather-pointed mr-2"></i>THE LOG OF HONEST STUMBLES</span>
-                    <span class="text-xs handwritten">"We grow through what we go through"</span>
-                </div>
-
-                <!-- Filter Controls -->
-                <div class="flex flex-wrap items-center justify-between gap-3 mb-4 bg-amber-900/10 p-2 rounded border border-amber-800/20">
-                    <div class="flex items-center gap-2">
-                        <label class="text-xs font-bold text-amber-950 silkscreen">Filter Pursuit:</label>
-                        <select id="journal-filter-skill" onchange="renderJournal()" class="bg-amber-50 border border-amber-800 rounded text-xs p-1 text-amber-950">
-                            <option value="ALL">All Pursuits</option>
+            <div class="win-body">
+                <div class="form-box">
+                    <div class="form-group">
+                        <label for="new-skill-title">PURSUIT NAME</label>
+                        <input type="text" id="new-skill-title" class="form-input" placeholder="e.g. Acoustic Guitar, Luau Scripting...">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-skill-cat">CATEGORY</label>
+                        <select id="new-skill-cat" class="form-select">
+                            <option value="Coding">Coding / Tech</option>
+                            <option value="Music">Music / Audio</option>
+                            <option value="Writing">Writing / Reading</option>
+                            <option value="Art">Art / Design</option>
+                            <option value="Fitness">Fitness / Movement</option>
+                            <option value="Language">Language</option>
+                            <option value="Craft">Craft / DIY</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
-                    <div class="text-xs text-amber-800 pixel-font text-base" id="journal-count-indicator">
-                        Showing 0 reflections
+                    <div class="form-group">
+                        <label for="new-skill-target">TARGET COUNT</label>
+                        <input type="number" id="new-skill-target" class="form-input" value="10000" readonly>
+                    </div>
+                    <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px;">
+                        <button class="y2k-btn" onclick="closeAddSkillModal()">CANCEL</button>
+                        <button class="y2k-btn primary" onclick="createSkill()">CREATE PURSUIT</button>
                     </div>
                 </div>
-
-                <!-- Journal List -->
-                <div id="journal-entries-container" class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
-                    <!-- Dynamic journal log cards will go here -->
-                </div>
             </div>
-        </section>
-
-        <!-- TAB CONTENT 3: MILESTONE STICKERS -->
-        <section id="tab-milestones" class="hidden space-y-4">
-            <div class="y2k-window p-4">
-                <div class="y2k-window-header p-2 rounded -mt-2 -mx-2 mb-4">
-                    <span class="silkscreen text-xs sm:text-sm"><i class="fa-solid fa-ribbon mr-2"></i>EARLY 2000s ACHIEVEMENT STICKER ALBUM</span>
-                </div>
-                <p class="text-sm text-amber-900 mb-6 handwritten text-base">
-                    As you log repetitions across your pursuits, unlock nostalgic autumn achievement stickers! Every milestone marks a key tier on the path to 10,000 attempts.
-                </p>
-
-                <div id="milestone-gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                    <!-- Dynamically loaded sticker items -->
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- MODAL 1: ADD NEW SKILL -->
-    <div id="new-skill-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="y2k-window max-w-md w-full p-4 relative animate-bounce-in">
-            <div class="y2k-window-header p-2 rounded -mt-2 -mx-2 mb-4 flex justify-between items-center">
-                <span class="silkscreen text-xs"><i class="fa-solid fa-folder-plus mr-1"></i> NEW_MASTERY_PURSUIT.EXE</span>
-                <button onclick="closeModal('new-skill-modal')" class="w-5 h-5 bg-red-700 text-white rounded flex items-center justify-center text-xs font-bold hover:bg-red-800">×</button>
-            </div>
-
-            <form onsubmit="handleCreateSkill(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Pursuit / Skill Title:</label>
-                    <input type="text" id="skill-title-input" required placeholder="e.g. Jazz Piano Improvisation, Rust Programming, Oil Painting" 
-                           class="w-full bg-amber-50 border-2 border-amber-900 rounded p-2 text-sm text-amber-950 focus:outline-none focus:ring-2 focus:ring-amber-600">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Category:</label>
-                    <select id="skill-category-input" class="w-full bg-amber-50 border-2 border-amber-900 rounded p-2 text-sm text-amber-950">
-                        <option value="Coding & Tech">💻 Coding & Tech</option>
-                        <option value="Creative Arts">🎨 Creative Arts & Craft</option>
-                        <option value="Writing & Prose">📚 Writing & Prose</option>
-                        <option value="Music & Audio">🎸 Music & Audio</option>
-                        <option value="Languages">🗣️ Language Learning</option>
-                        <option value="Physical & Movement">🍂 Physical & Sports</option>
-                        <option value="Science & Math">🔬 Science & Mathematics</option>
-                        <option value="General Pursuit">🍁 General Pursuit</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Initial Attempt Count (if already started):</label>
-                    <input type="number" id="skill-initial-count" min="0" max="10000" value="0"
-                           class="w-full bg-amber-50 border-2 border-amber-900 rounded p-2 text-sm text-amber-950">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Custom Color Vibe:</label>
-                    <div class="flex space-x-3">
-                        <label class="cursor-pointer flex items-center gap-1">
-                            <input type="radio" name="skill-color" value="burgundy" checked>
-                            <span class="w-4 h-4 rounded-full bg-red-900 inline-block border border-amber-900"></span>
-                            <span class="text-xs">Burgundy</span>
-                        </label>
-                        <label class="cursor-pointer flex items-center gap-1">
-                            <input type="radio" name="skill-color" value="orange">
-                            <span class="w-4 h-4 rounded-full bg-orange-600 inline-block border border-amber-900"></span>
-                            <span class="text-xs">Maple</span>
-                        </label>
-                        <label class="cursor-pointer flex items-center gap-1">
-                            <input type="radio" name="skill-color" value="moss">
-                            <span class="w-4 h-4 rounded-full bg-emerald-800 inline-block border border-amber-900"></span>
-                            <span class="text-xs">Moss</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="pt-2 flex justify-end space-x-2">
-                    <button type="button" onclick="closeModal('new-skill-modal')" class="y2k-btn px-4 py-1.5 text-xs text-amber-950">CANCEL</button>
-                    <button type="submit" class="y2k-btn y2k-btn-primary px-4 py-1.5 text-xs">CREATE PURSUIT</button>
-                </div>
-            </form>
         </div>
     </div>
-
-    <!-- MODAL 2: QUICK INCREMENT / FAILURE LOG DIALOG -->
-    <div id="increment-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="y2k-window max-w-md w-full p-4 relative">
-            <div class="y2k-window-header p-2 rounded -mt-2 -mx-2 mb-4 flex justify-between items-center">
-                <span class="silkscreen text-xs" id="inc-modal-title"><i class="fa-solid fa-plus-minus mr-1"></i> LOG_ATTEMPT.EXE</span>
-                <button onclick="closeModal('increment-modal')" class="w-5 h-5 bg-red-700 text-white rounded flex items-center justify-center text-xs font-bold">×</button>
-            </div>
-
-            <form onsubmit="handleLogAttempt(event)" class="space-y-4">
-                <input type="hidden" id="inc-skill-id">
-
-                <div class="bg-amber-900/10 p-3 rounded border border-amber-800/30 text-center">
-                    <span class="text-xs font-bold silkscreen text-amber-950 block" id="inc-skill-name-display">Skill Name</span>
-                    <span class="text-xs text-amber-800 handwritten">Current Progress: <strong id="inc-current-count">0</strong> / 10,000</span>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Number of Attempts / Repeats to Add:</label>
-                    <div class="flex items-center space-x-2">
-                        <button type="button" onclick="setIncAmount(1)" class="y2k-btn px-3 py-1 text-xs">+1</button>
-                        <button type="button" onclick="setIncAmount(5)" class="y2k-btn px-3 py-1 text-xs">+5</button>
-                        <button type="button" onclick="setIncAmount(10)" class="y2k-btn px-3 py-1 text-xs">+10</button>
-                        <button type="button" onclick="setIncAmount(50)" class="y2k-btn px-3 py-1 text-xs">+50</button>
-                        <input type="number" id="inc-amount-input" min="1" max="1000" value="1" required
-                               class="w-20 bg-amber-50 border-2 border-amber-900 rounded p-1.5 text-center text-sm font-bold text-amber-950">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Failure Log Note / Reflection (Optional):</label>
-                    <textarea id="inc-reflection-input" rows="3" placeholder="What did you attempt? What broke? What insight did you gain from this failure?"
-                              class="w-full bg-amber-50 border-2 border-amber-900 rounded p-2 text-xs text-amber-950 focus:outline-none focus:ring-2 focus:ring-amber-600 handwritten text-base"></textarea>
-                </div>
-
-                <div class="pt-2 flex justify-end space-x-2">
-                    <button type="button" onclick="closeModal('increment-modal')" class="y2k-btn px-4 py-1.5 text-xs text-amber-950">CANCEL</button>
-                    <button type="submit" class="y2k-btn y2k-btn-primary px-4 py-1.5 text-xs">LOG REPETITIONS</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-amber-950 text-amber-400 p-4 border-t-2 border-amber-800 text-center text-xs space-y-2 mt-8">
-        <div class="flex justify-center items-center space-x-4">
-            <span class="silkscreen text-amber-300">10,000 FAILURES THEORY</span>
-            <span>•</span>
-            <span class="handwritten text-sm text-amber-200">Embrace the messy, glorious path to mastery</span>
-            <span>•</span>
-            <button onclick="resetAllData()" class="text-xs text-red-400 hover:underline">Reset All Data</button>
-        </div>
-        <div class="text-[10px] text-amber-600 font-mono">
-            Designed with Y2K nostalgia & cozy autumn foliage • Local Storage Enabled
-        </div>
-    </footer>
 
     <script>
-        /* ==========================================================================
-           1. INITIAL STATE & MILESTONE DEFINITIONS
-           ========================================================================== */
         const MILESTONES = [
-            { count: 100, name: "First Spark", icon: "fa-seedling", desc: "First 100 failures logged. The journey has begun!" },
-            { count: 500, name: "Autumn Apprentice", icon: "fa-leaf", desc: "500 repetitions. Building solid muscle memory." },
-            { count: 1000, name: "1K Stumbler", icon: "fa-fire-flame-curved", desc: "1,000 attempts! You are 10% on the path to mastery." },
-            { count: 2500, name: "Resilient Craftsman", icon: "fa-shield-halved", desc: "2,500 failures. Obstacles become your roadmap." },
-            { count: 5000, name: "Halfway Veteran", icon: "fa-tree", desc: "5,000 repeats! The halfway point of deep deliberate practice." },
-            { count: 10000, name: "Grand Master", icon: "fa-crown", desc: "10,000 FAILURES LOGGED. Complete mastery achieved!" }
+            { count: 10, title: "FIRST STUMBLE", icon: "🌱", desc: "10 Failures recorded. The journey begins." },
+            { count: 100, title: "CENTURY TRIALS", icon: "🍁", desc: "100 Failures. Building momentum." },
+            { count: 500, title: "AUTUMN HARVEST", icon: "🍂", desc: "500 Failures. Calluses forming." },
+            { count: 1000, title: "THOUSAND SEEDS", icon: "🌰", desc: "1,000 Failures. Deep practice taking root." },
+            { count: 2500, title: "MOSS COVERED", icon: "🍄", desc: "2,500 Failures. Embracing the craft." },
+            { count: 5000, title: "HALFWAY MASTERY", icon: "🎃", desc: "5,000 Failures. Unshakable resilience." },
+            { count: 10000, title: "10K LEGEND", icon: "👑", desc: "10,000 Failures. True mastery attained." }
         ];
 
         let state = {
             skills: [],
-            logs: [],
+            journal: [],
             soundEnabled: true
         };
 
-        // Audio Effects Synth (using Web Audio API for zero external asset dependency)
         let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
 
         function playSound(type) {
             if (!state.soundEnabled) return;
             try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-
+                initAudio();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.connect(gain);
@@ -504,542 +862,380 @@
                     gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
                     osc.start();
                     osc.stop(audioCtx.currentTime + 0.05);
-                } else if (type === 'milestone') {
+                } else if (type === 'bump') {
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-                    osc.frequency.setValueAtTime(554.37, audioCtx.currentTime + 0.1); // C#5
-                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.2); // E5
+                    osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1);
                     gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-                    gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                    gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
                     osc.start();
-                    osc.stop(audioCtx.currentTime + 0.4);
+                    osc.stop(audioCtx.currentTime + 0.1);
+                } else if (type === 'unlock') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(450, audioCtx.currentTime + 0.08);
+                    osc.frequency.setValueAtTime(600, audioCtx.currentTime + 0.16);
+                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
                 }
             } catch (e) {
-                console.log("Audio play error:", e);
+                console.log('Audio playback prevented');
             }
         }
 
-        function toggleAudio() {
-            state.soundEnabled = !state.soundEnabled;
-            const btn = document.getElementById('sound-toggle');
-            const icon = document.getElementById('sound-icon');
-            if (state.soundEnabled) {
-                icon.className = "fa-solid fa-volume-high text-amber-800";
-                btn.querySelector('span').innerText = "SFX: ON";
-                playSound('click');
-            } else {
-                icon.className = "fa-solid fa-volume-xmark text-red-800";
-                btn.querySelector('span').innerText = "SFX: OFF";
-            }
-            saveState();
-        }
-
-        /* ==========================================================================
-           2. LOCAL STORAGE & INITIALIZATION
-           ========================================================================== */
         function loadState() {
-            const saved = localStorage.getItem('10k_failures_state_v1');
+            const saved = localStorage.getItem('harvest_logs_data');
             if (saved) {
                 try {
                     state = JSON.parse(saved);
-                } catch (e) {
-                    console.error("Failed to parse state", e);
-                    initDefaultData();
+                } catch(e) {
+                    console.error("Error loading state", e);
                 }
-            } else {
-                initDefaultData();
             }
+            renderAll();
         }
 
         function saveState() {
-            localStorage.setItem('10k_failures_state_v1', JSON.stringify(state));
-            updateStatsSummary();
+            localStorage.setItem('harvest_logs_data', JSON.stringify(state));
+            renderAll();
         }
 
-        function initDefaultData() {
-            state = {
-                soundEnabled: true,
-                skills: [
-                    {
-                        id: 's_1',
-                        title: 'Web App Development',
-                        category: 'Coding & Tech',
-                        count: 420,
-                        color: 'burgundy',
-                        createdAt: new Date().toISOString()
-                    },
-                    {
-                        id: 's_2',
-                        title: 'Acoustic Guitar Fingerpicking',
-                        category: 'Music & Audio',
-                        count: 1250,
-                        color: 'orange',
-                        createdAt: new Date().toISOString()
-                    }
-                ],
-                logs: [
-                    {
-                        id: 'l_1',
-                        skillId: 's_1',
-                        skillTitle: 'Web App Development',
-                        amount: 5,
-                        note: 'Tried implementing custom matrix canvas shader. FPS dropped to 10 - learned about batching draw calls!',
-                        timestamp: new Date(Date.now() - 86400000 * 2).toISOString()
-                    },
-                    {
-                        id: 'l_2',
-                        skillId: 's_2',
-                        skillTitle: 'Acoustic Guitar Fingerpicking',
-                        amount: 10,
-                        note: 'BPM set to 120 on Travis picking drill. Pinky finger slipped constantly, but rhythmic feel improved slightly.',
-                        timestamp: new Date(Date.now() - 86400000 * 1).toISOString()
-                    }
-                ]
-            };
-            saveState();
+        function renderAll() {
+            renderStats();
+            renderSkills();
+            renderJournalSelects();
+            renderJournal();
+            renderStickers();
         }
 
-        /* ==========================================================================
-           3. UI CONTROLLERS & RENDERING
-           ========================================================================== */
-        function switchTab(tabName) {
-            playSound('click');
-            ['dashboard', 'journal', 'milestones'].forEach(t => {
-                document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tab-btn-${t}`).classList.remove('active');
-            });
+        function renderStats() {
+            const total = state.skills.reduce((sum, s) => sum + s.count, 0);
+            document.getElementById('stat-total-attempts').innerText = String(total).padStart(6, '0');
+            document.getElementById('stat-active-skills').innerText = String(state.skills.length).padStart(2, '0');
+        }
 
-            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${tabName}`).classList.add('active');
-
-            if (tabName === 'journal') renderJournal();
-            if (tabName === 'milestones') renderMilestones();
+        function getLogarithmicPercent(count, target = 10000) {
+            if (count <= 0) return 0;
+            if (count >= target) return 100;
+            return (Math.log10(count + 1) / Math.log10(target + 1)) * 100;
         }
 
         function renderSkills() {
             const container = document.getElementById('skills-container');
-            const emptyState = document.getElementById('empty-skills-state');
             container.innerHTML = '';
 
             if (state.skills.length === 0) {
-                emptyState.classList.remove('hidden');
+                container.innerHTML = `
+                    <div class="empty-state">
+                        🍁 No pursuits registered yet.<br>
+                        Click <strong>"+ NEW PURSUIT"</strong> above to start tracking your journey to 10,000 failures!
+                    </div>
+                `;
                 return;
-            } else {
-                emptyState.classList.add('hidden');
             }
 
             state.skills.forEach(skill => {
-                const percent = ((skill.count / 10000) * 100).toFixed(1);
-                
-                // Determine unlocked milestones
-                const unlocked = MILESTONES.filter(m => skill.count >= m.count);
-                const nextMilestone = MILESTONES.find(m => skill.count < m.count) || MILESTONES[MILESTONES.length - 1];
+                const percent = getLogarithmicPercent(skill.count, skill.target);
+                const card = document.createElement('div');
+                card.className = 'skill-card';
+                card.innerHTML = `
+                    <button class="card-menu" onclick="deleteSkill('${skill.id}')" title="Delete Pursuit">×</button>
+                    <div class="skill-card-header">
+                        <div class="skill-title">${escapeHtml(skill.title)}</div>
+                        <span class="skill-cat-badge">${escapeHtml(skill.category)}</span>
+                    </div>
 
-                let themeHeader = "from-amber-900 to-red-950";
-                if (skill.color === 'orange') themeHeader = "from-orange-800 to-amber-900";
-                if (skill.color === 'moss') themeHeader = "from-emerald-900 to-amber-950";
-
-                const cardHtml = `
-                    <div class="y2k-window flex flex-col justify-between p-4 relative group">
-                        <div>
-                            <!-- Card Header Bar -->
-                            <div class="y2k-window-header p-2 rounded -mt-2 -mx-2 mb-3 bg-gradient-to-r ${themeHeader} flex justify-between items-center">
-                                <div class="flex items-center space-x-2 truncate">
-                                    <span class="text-xs px-1.5 py-0.5 rounded bg-amber-950/60 border border-amber-600/40 text-amber-200 uppercase silkscreen">${skill.category}</span>
-                                    <h2 class="font-bold text-sm sm:text-base text-amber-100 truncate">${escapeHtml(skill.title)}</h2>
-                                </div>
-                                <button onclick="deleteSkill('${skill.id}')" class="text-amber-300 hover:text-red-300 text-xs px-1" title="Delete Pursuit">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </div>
-
-                            <!-- Big Counter Display -->
-                            <div class="flex items-end justify-between my-2 bg-amber-900/10 p-3 rounded border border-amber-800/20">
-                                <div>
-                                    <span class="text-xs uppercase silkscreen text-amber-900 block">Failures / Repeats</span>
-                                    <div class="pixel-font text-4xl sm:text-5xl font-bold text-amber-950 tracking-tight">
-                                        ${skill.count.toLocaleString()} <span class="text-lg text-amber-800 font-normal">/ 10,000</span>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <span class="lcd-display px-2 py-1 rounded text-base block font-bold">
-                                        ${percent}%
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Progress Bar -->
-                            <div class="space-y-1 my-3">
-                                <div class="flex justify-between text-xs text-amber-900 font-bold silkscreen">
-                                    <span>PROGRESS BAR</span>
-                                    <span>NEXT: ${nextMilestone.count.toLocaleString()} (${nextMilestone.name})</span>
-                                </div>
-                                <div class="w-full bg-amber-950/20 rounded-full h-4 p-0.5 border border-amber-900/40 shadow-inner">
-                                    <div class="bg-gradient-to-r from-amber-600 via-orange-500 to-red-600 h-full rounded-full transition-all duration-500" 
-                                         style="width: ${Math.min(100, Math.max(1, percent))}%"></div>
-                                </div>
-                            </div>
-
-                            <!-- Badges unlocked for this skill -->
-                            <div class="flex items-center space-x-2 my-3 overflow-x-auto py-1">
-                                <span class="text-[10px] silkscreen text-amber-900 font-bold">BADGES:</span>
-                                ${MILESTONES.map(m => {
-                                    const isUnlocked = skill.count >= m.count;
-                                    return `
-                                        <div class="inline-flex items-center justify-center w-7 h-7 rounded-full border border-amber-900 text-xs ${isUnlocked ? 'bg-amber-400 text-amber-950 shadow' : 'bg-amber-900/20 text-amber-900/30'}" 
-                                             title="${m.name} (${m.count} attempts)">
-                                            <i class="fa-solid ${m.icon}"></i>
-                                        </div>
-                                    `;
-                                }).join('')}
-                            </div>
+                    <div class="log-display-area">
+                        <div class="count-flex">
+                            <span class="count-big">${skill.count.toLocaleString()}</span>
+                            <span class="count-target">/ ${skill.target.toLocaleString()}</span>
                         </div>
-
-                        <!-- Action Buttons -->
-                        <div class="pt-3 border-t border-amber-800/20 flex flex-wrap gap-2">
-                            <button onclick="quickAdd('${skill.id}', 1)" class="y2k-btn px-2.5 py-1 text-xs flex-1">+1 REPEAT</button>
-                            <button onclick="quickAdd('${skill.id}', 5)" class="y2k-btn px-2.5 py-1 text-xs flex-1">+5</button>
-                            <button onclick="quickAdd('${skill.id}', 10)" class="y2k-btn px-2.5 py-1 text-xs flex-1">+10</button>
-                            <button onclick="openIncrementModal('${skill.id}')" class="y2k-btn y2k-btn-primary px-3 py-1 text-xs flex-2">
-                                <i class="fa-solid fa-pen-to-square mr-1"></i> LOG NOTE
-                            </button>
+                        <div class="progress-outer">
+                            <div class="progress-inner" style="width: ${Math.min(100, percent)}%;"></div>
+                        </div>
+                        <div class="log-scale-text">
+                            <span>LOG SCALE</span>
+                            <span>${percent.toFixed(1)}% PATH</span>
                         </div>
                     </div>
+
+                    <div class="card-actions">
+                        <button class="y2k-btn primary btn-bump" onclick="quickBump('${skill.id}')">+1 FAILURE</button>
+                        <button class="y2k-btn btn-log" onclick="openJournalForSkill('${skill.id}')">REFLECT</button>
+                    </div>
                 `;
-                container.innerHTML += cardHtml;
+                container.appendChild(card);
             });
+        }
+
+        function renderJournalSelects() {
+            const selectLog = document.getElementById('journal-skill-select');
+            const selectFilter = document.getElementById('journal-filter');
+            
+            const currentFilter = selectFilter.value;
+
+            selectLog.innerHTML = '';
+            selectFilter.innerHTML = '<option value="ALL">Show All Pursuits</option>';
+
+            state.skills.forEach(s => {
+                const opt1 = document.createElement('option');
+                opt1.value = s.id;
+                opt1.innerText = s.title;
+                selectLog.appendChild(opt1);
+
+                const opt2 = document.createElement('option');
+                opt2.value = s.id;
+                opt2.innerText = s.title;
+                selectFilter.appendChild(opt2);
+            });
+
+            if (currentFilter && [...selectFilter.options].some(o => o.value === currentFilter)) {
+                selectFilter.value = currentFilter;
+            }
         }
 
         function renderJournal() {
-            const container = document.getElementById('journal-entries-container');
-            const filterSelect = document.getElementById('journal-filter-skill');
-            const countIndicator = document.getElementById('journal-count-indicator');
+            const container = document.getElementById('journal-container');
+            const filter = document.getElementById('journal-filter').value;
+            container.innerHTML = '';
 
-            // Update filter dropdown options
-            const currentFilter = filterSelect.value || 'ALL';
-            filterSelect.innerHTML = '<option value="ALL">All Pursuits</option>';
-            state.skills.forEach(s => {
-                filterSelect.innerHTML += `<option value="${s.id}" ${currentFilter === s.id ? 'selected' : ''}>${escapeHtml(s.title)}</option>`;
-            });
+            let entries = [...state.journal].reverse();
+            if (filter !== 'ALL') {
+                entries = entries.filter(e => e.skillId === filter);
+            }
 
-            // Filter logs
-            const filteredLogs = state.logs.filter(log => {
-                if (currentFilter === 'ALL') return true;
-                return log.skillId === currentFilter;
-            }).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-            countIndicator.innerText = `Showing ${filteredLogs.length} entries`;
-
-            if (filteredLogs.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-8 text-amber-900">
-                        <i class="fa-solid fa-book-open text-3xl mb-2 opacity-50"></i>
-                        <p class="handwritten text-lg">No reflection logs found for this view.</p>
-                    </div>
-                `;
+            if (entries.length === 0) {
+                container.innerHTML = `<div class="empty-state">No reflection entries logged yet.</div>`;
                 return;
             }
 
-            container.innerHTML = filteredLogs.map(log => {
-                const dateStr = new Date(log.timestamp).toLocaleDateString(undefined, {
-                    month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
-                });
-
-                return `
-                    <div class="bg-amber-100/80 border-2 border-amber-900/60 rounded p-3 shadow-sm relative">
-                        <div class="flex justify-between items-start gap-2 border-b border-amber-900/20 pb-1 mb-2">
-                            <div>
-                                <span class="font-bold text-xs silkscreen text-amber-950">${escapeHtml(log.skillTitle)}</span>
-                                <span class="text-[10px] ml-2 px-1.5 py-0.2 bg-amber-800 text-amber-100 rounded pixel-font">+${log.amount} REPEATS</span>
-                            </div>
-                            <span class="text-[11px] text-amber-800 font-mono">${dateStr}</span>
-                        </div>
-                        <p class="text-xs text-amber-950 handwritten text-base leading-snug">
-                            "${escapeHtml(log.note || 'No note attached.')}"
-                        </p>
+            entries.forEach(entry => {
+                const skill = state.skills.find(s => s.id === entry.skillId);
+                const card = document.createElement('div');
+                card.className = 'entry-card';
+                card.innerHTML = `
+                    <div class="entry-header">
+                        <span class="entry-skill">${skill ? escapeHtml(skill.title) : 'Deleted Pursuit'}</span>
+                        <span class="entry-date">${new Date(entry.timestamp).toLocaleDateString()} ${new Date(entry.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                     </div>
+                    <div class="entry-note">${escapeHtml(entry.note || 'No notes added.')}</div>
+                    <span class="entry-count-tag">+${entry.count} Failure${entry.count > 1 ? 's' : ''} logged</span>
                 `;
-            }).join('');
+                container.appendChild(card);
+            });
         }
 
-        function renderMilestones() {
-            const gallery = document.getElementById('milestone-gallery');
-            gallery.innerHTML = '';
+        function renderStickers() {
+            const container = document.getElementById('stickers-container');
+            container.innerHTML = '';
 
-            // Calculate total highest count achieved in any single skill
-            const maxSkillCount = state.skills.reduce((max, s) => Math.max(max, s.count), 0);
+            const total = state.skills.reduce((sum, s) => sum + s.count, 0);
 
             MILESTONES.forEach(m => {
-                const isUnlocked = maxSkillCount >= m.count;
-                const card = `
-                    <div class="y2k-window p-3 text-center flex flex-col items-center justify-between ${isUnlocked ? '' : 'opacity-60 grayscale'}">
-                        <div class="sticker-badge w-14 h-14 rounded-full bg-gradient-to-br from-amber-300 via-orange-400 to-red-500 border-2 border-amber-950 flex items-center justify-center my-2 shadow-md">
-                            <i class="fa-solid ${m.icon} text-amber-950 text-2xl"></i>
-                        </div>
-                        <div>
-                            <div class="silkscreen text-xs text-amber-950 font-bold mt-1">${m.name}</div>
-                            <div class="pixel-font text-amber-800 text-sm font-bold">${m.count.toLocaleString()} ATTEMPTS</div>
-                            <p class="text-[10px] text-amber-900 handwritten mt-1 line-clamp-2">${m.desc}</p>
-                        </div>
-                        <div class="mt-2 text-[10px] uppercase font-bold silkscreen px-2 py-0.5 rounded ${isUnlocked ? 'bg-green-700 text-green-100' : 'bg-amber-900/20 text-amber-900'}">
-                            ${isUnlocked ? 'UNLOCKED' : 'LOCKED'}
-                        </div>
-                    </div>
+                const unlocked = total >= m.count;
+                const item = document.createElement('div');
+                item.className = `sticker-item ${unlocked ? 'unlocked' : ''}`;
+                item.innerHTML = `
+                    <span class="sticker-badge">UNLOCKED</span>
+                    <div class="sticker-icon">${m.icon}</div>
+                    <div class="sticker-title">${m.title}</div>
+                    <div class="sticker-desc">${m.desc}</div>
                 `;
-                gallery.innerHTML += card;
+                container.appendChild(item);
             });
         }
 
-        function updateStatsSummary() {
-            const totalRepeats = state.skills.reduce((sum, s) => sum + s.count, 0);
-            const activeSkills = state.skills.length;
-            
-            // Total unlocked milestones count across all skills
-            let unlockedCount = 0;
-            state.skills.forEach(s => {
-                unlockedCount += MILESTONES.filter(m => s.count >= m.count).length;
-            });
-            const totalPossibleMilestones = activeSkills * MILESTONES.length;
-
-            const overallPercent = activeSkills > 0 
-                ? ((totalRepeats / (activeSkills * 10000)) * 100).toFixed(1) 
-                : "0.0";
-
-            document.getElementById('stat-total-repeats').innerText = totalRepeats.toLocaleString();
-            document.getElementById('stat-active-skills').innerText = activeSkills;
-            document.getElementById('stat-milestones').innerText = `${unlockedCount} / ${totalPossibleMilestones}`;
-            document.getElementById('stat-overall-percent').innerText = `${overallPercent}%`;
-
-            renderSkills();
-        }
-
-        /* ==========================================================================
-           4. MODAL & EVENT ACTIONS
-           ========================================================================== */
-        function openModal(modalId) {
-            playSound('click');
-            document.getElementById(modalId).classList.remove('hidden');
-        }
-
-        function closeModal(modalId) {
-            playSound('click');
-            document.getElementById(modalId).classList.add('hidden');
-        }
-
-        function handleCreateSkill(e) {
-            e.preventDefault();
-            const title = document.getElementById('skill-title-input').value.trim();
-            const category = document.getElementById('skill-category-input').value;
-            const count = parseInt(document.getElementById('skill-initial-count').value) || 0;
-            const color = document.querySelector('input[name="skill-color"]:checked').value;
-
-            if (!title) return;
-
-            const newSkill = {
-                id: 's_' + Date.now(),
-                title,
-                category,
-                count: Math.min(10000, Math.max(0, count)),
-                color,
-                createdAt: new Date().toISOString()
-            };
-
-            state.skills.push(newSkill);
-            
-            // Add initial log entry if starting count > 0
-            if (count > 0) {
-                state.logs.push({
-                    id: 'l_' + Date.now(),
-                    skillId: newSkill.id,
-                    skillTitle: newSkill.title,
-                    amount: count,
-                    note: 'Initial starting repetitions logged upon creation.',
+        function quickBump(skillId) {
+            playSound('bump');
+            const skill = state.skills.find(s => s.id === skillId);
+            if (skill) {
+                skill.count += 1;
+                state.journal.push({
+                    id: Date.now().toString(),
+                    skillId: skillId,
+                    count: 1,
+                    note: "Quick +1 Failure attempt.",
                     timestamp: new Date().toISOString()
                 });
+                checkMilestones();
+                saveState();
+            }
+        }
+
+        function checkMilestones() {
+            const total = state.skills.reduce((sum, s) => sum + s.count, 0);
+            MILESTONES.forEach(m => {
+                if (total >= m.count && !m.announced) {
+                    m.announced = true;
+                    playSound('unlock');
+                }
+            });
+        }
+
+        function saveJournalEntry() {
+            const skillSelect = document.getElementById('journal-skill-select');
+            const countInput = document.getElementById('journal-count-input');
+            const noteInput = document.getElementById('journal-note-input');
+
+            const skillId = skillSelect.value;
+            const count = parseInt(countInput.value) || 1;
+            const note = noteInput.value.trim();
+
+            if (!skillId) {
+                alert("Please create a pursuit first!");
+                return;
             }
 
-            saveState();
-            closeModal('new-skill-modal');
-            document.getElementById('skill-title-input').value = '';
-            playSound('milestone');
-        }
-
-        function quickAdd(skillId, amount) {
-            playSound('click');
+            playSound('bump');
             const skill = state.skills.find(s => s.id === skillId);
-            if (!skill) return;
+            if (skill) {
+                skill.count += count;
+            }
 
-            const prevCount = skill.count;
-            skill.count = Math.min(10000, skill.count + amount);
-
-            // Log entry
-            state.logs.push({
-                id: 'l_' + Date.now(),
-                skillId: skill.id,
-                skillTitle: skill.title,
-                amount: amount,
-                note: `Quick logged +${amount} repetition(s).`,
+            state.journal.push({
+                id: Date.now().toString(),
+                skillId,
+                count,
+                note,
                 timestamp: new Date().toISOString()
             });
 
-            // Check milestone sound trigger
-            const newlyUnlocked = MILESTONES.some(m => prevCount < m.count && skill.count >= m.count);
-            if (newlyUnlocked) playSound('milestone');
+            noteInput.value = '';
+            countInput.value = '1';
 
+            checkMilestones();
             saveState();
         }
 
-        function openIncrementModal(skillId) {
+        function createSkill() {
+            const titleInput = document.getElementById('new-skill-title');
+            const catSelect = document.getElementById('new-skill-cat');
+
+            const title = titleInput.value.trim();
+            const category = catSelect.value;
+
+            if (!title) {
+                alert("Please enter a pursuit title.");
+                return;
+            }
+
             playSound('click');
-            const skill = state.skills.find(s => s.id === skillId);
-            if (!skill) return;
-
-            document.getElementById('inc-skill-id').value = skill.id;
-            document.getElementById('inc-skill-name-display').innerText = skill.title;
-            document.getElementById('inc-current-count').innerText = skill.count.toLocaleString();
-            document.getElementById('inc-amount-input').value = 1;
-            document.getElementById('inc-reflection-input').value = '';
-
-            openModal('increment-modal');
-        }
-
-        function setIncAmount(val) {
-            playSound('click');
-            document.getElementById('inc-amount-input').value = val;
-        }
-
-        function handleLogAttempt(e) {
-            e.preventDefault();
-            const skillId = document.getElementById('inc-skill-id').value;
-            const amount = parseInt(document.getElementById('inc-amount-input').value) || 1;
-            const note = document.getElementById('inc-reflection-input').value.trim();
-
-            const skill = state.skills.find(s => s.id === skillId);
-            if (!skill) return;
-
-            const prevCount = skill.count;
-            skill.count = Math.min(10000, skill.count + amount);
-
-            state.logs.push({
-                id: 'l_' + Date.now(),
-                skillId: skill.id,
-                skillTitle: skill.title,
-                amount: amount,
-                note: note || `Logged +${amount} repetition(s).`,
-                timestamp: new Date().toISOString()
+            state.skills.push({
+                id: Date.now().toString(),
+                title,
+                category,
+                count: 0,
+                target: 10000
             });
 
-            const newlyUnlocked = MILESTONES.some(m => prevCount < m.count && skill.count >= m.count);
-            if (newlyUnlocked) playSound('milestone');
-
+            titleInput.value = '';
+            closeAddSkillModal();
             saveState();
-            closeModal('increment-modal');
         }
 
         function deleteSkill(skillId) {
-            if (confirm("Are you sure you want to delete this mastery pursuit? Logs will remain in memory.")) {
+            if (confirm("Are you sure you want to delete this pursuit? Journal entries will remain intact.")) {
                 playSound('click');
                 state.skills = state.skills.filter(s => s.id !== skillId);
                 saveState();
             }
         }
 
-        function resetAllData() {
-            if (confirm("Reset all 10,000 Failures tracking data to default? This action cannot be undone.")) {
-                localStorage.removeItem('10k_failures_state_v1');
-                initDefaultData();
-                updateStatsSummary();
-            }
+        function openAddSkillModal() {
+            playSound('click');
+            document.getElementById('add-skill-modal').classList.add('active');
+        }
+
+        function closeAddSkillModal() {
+            playSound('click');
+            document.getElementById('add-skill-modal').classList.remove('active');
+        }
+
+        function openJournalForSkill(skillId) {
+            playSound('click');
+            switchTab('tab-journal');
+            document.getElementById('journal-skill-select').value = skillId;
+        }
+
+        function switchTab(tabId) {
+            playSound('click');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
         }
 
         function escapeHtml(str) {
-            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+            return str.replace(/[&<>"']/g, function(m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[m];
+            });
         }
 
-        /* ==========================================================================
-           5. Y2K CANVAS LEAF ANIMATION ENGINE
-           ========================================================================== */
-        function initLeafAnimation() {
-            const canvas = document.getElementById('leaf-canvas');
-            const ctx = canvas.getContext('2d');
+        document.getElementById('audio-btn').addEventListener('click', () => {
+            state.soundEnabled = !state.soundEnabled;
+            document.getElementById('audio-btn').innerText = state.soundEnabled ? '🔊' : '🔇';
+        });
 
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
+        // Falling leaves background
+        const canvas = document.getElementById('leaf-canvas');
+        const ctx = canvas.getContext('2d');
 
-            const leaves = [];
-            const leafColors = ['#d96b27', '#6b1d2f', '#e59832', '#8c3d18', '#506138'];
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-            for (let i = 0; i < 22; i++) {
-                leaves.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 8 + 6,
-                    speedY: Math.random() * 0.8 + 0.3,
-                    speedX: Math.random() * 0.6 - 0.3,
-                    angle: Math.random() * Math.PI * 2,
-                    spin: Math.random() * 0.02 - 0.01,
-                    color: leafColors[Math.floor(Math.random() * leafColors.length)]
-                });
-            }
+        const LEAF_COLORS = ['#d97724', '#e5a93b', '#a04000', '#8c3a2b', '#800020'];
+        const leaves = Array.from({ length: 25 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 8 + 6,
+            speedY: Math.random() * 0.8 + 0.3,
+            speedX: Math.random() * 0.5 - 0.25,
+            color: LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)],
+            rot: Math.random() * Math.PI * 2,
+            rotSpeed: Math.random() * 0.02 - 0.01
+        }));
 
-            function drawPixelLeaf(ctx, x, y, size, angle, color) {
+        function drawLeaves() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            leaves.forEach(l => {
                 ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate(angle);
-                ctx.fillStyle = color;
+                ctx.translate(l.x, l.y);
+                ctx.rotate(l.rot);
+                ctx.fillStyle = l.color;
                 
-                // Pixelated leaf shape
-                ctx.fillRect(-size/2, -size/2, size, size);
-                ctx.fillRect(-size/4, -size, size/2, size*1.5);
-                ctx.fillRect(-size, -size/4, size*1.5, size/2);
+                // Pixel leaf shape
+                ctx.fillRect(-l.size/2, -l.size/2, l.size, l.size);
+                ctx.fillRect(-l.size/4, -l.size, l.size/2, l.size*1.5);
                 
                 ctx.restore();
-            }
 
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                l.y += l.speedY;
+                l.x += l.speedX + Math.sin(l.y / 30) * 0.3;
+                l.rot += l.rotSpeed;
 
-                leaves.forEach(leaf => {
-                    leaf.y += leaf.speedY;
-                    leaf.x += Math.sin(leaf.y * 0.01) * 0.5 + leaf.speedX;
-                    leaf.angle += leaf.spin;
-
-                    if (leaf.y > canvas.height + 20) {
-                        leaf.y = -20;
-                        leaf.x = Math.random() * canvas.width;
-                    }
-
-                    drawPixelLeaf(ctx, leaf.x, leaf.y, leaf.size, leaf.angle, leaf.color);
-                });
-
-                requestAnimationFrame(animate);
-            }
-
-            animate();
+                if (l.y > canvas.height + 20) {
+                    l.y = -20;
+                    l.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(drawLeaves);
         }
 
-        /* ==========================================================================
-           6. CLOCK & APP INITIALIZATION
-           ========================================================================== */
-        function startClock() {
-            function updateClock() {
-                const now = new Date();
-                document.getElementById('digital-clock').innerText = now.toLocaleTimeString();
-            }
-            updateClock();
-            setInterval(updateClock, 1000);
-        }
-
-        window.onload = function() {
-            loadState();
-            updateStatsSummary();
-            initLeafAnimation();
-            startClock();
-        };
+        drawLeaves();
+        loadState();
     </script>
 </body>
 </html>
