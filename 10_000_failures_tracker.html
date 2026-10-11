@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10,000 Failures Tracker // Y2K Fall Edition</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: VT323 & Comic Neue / MS Sans Serif style font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen&family=Public+Pixel&family=Patrick+Hand&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --fall-orange: #d96b27;
+            --fall-burgundy: #6b1d2f;
+            --fall-amber: #e59832;
+            --fall-moss: #506138;
+            --fall-bg: #211210;
+            --fall-paper: #f4e8d3;
+            --win-border-light: #f7d0a1;
+            --win-border-dark: #3a1c14;
+        }
+
+        body {
+            background-color: #1a0b0a;
+            background-image: 
+                radial-gradient(#3a1b14 15%, transparent 16%),
+                radial-gradient(#2d120a 15%, transparent 16%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            font-family: 'Outfit', sans-serif;
+            color: #2e1c14;
+            overflow-x: hidden;
+        }
+
+        .pixel-font {
+            font-family: 'VT323', monospace;
+        }
+
+        .silkscreen {
+            font-family: 'Silkscreen', cursive;
+        }
+
+        .handwritten {
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        /* Skeuomorphic Window Styles */
+        .y2k-window {
+            background: linear-gradient(135deg, #fcefdc 0%, #edd8b8 100%);
+            border: 3px solid #6b1d2f;
+            box-shadow: 
+                inset 2px 2px 0px #fff7ec,
+                inset -2px -2px 0px #ab7a52,
+                6px 8px 0px rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+        }
+
+        .y2k-window-header {
+            background: linear-gradient(90deg, #6b1d2f 0%, #9e3623 50%, #d96b27 100%);
+            color: #ffe6cc;
+            text-shadow: 1px 1px 2px #210803;
+            border-bottom: 2px solid #3a1c14;
+        }
+
+        /* Skeuomorphic Button Styles */
+        .y2k-btn {
+            background: linear-gradient(180deg, #fce5c8 0%, #e3ab72 50%, #cc8b4b 100%);
+            border: 2px solid #522312;
+            border-radius: 5px;
+            box-shadow: 
+                inset 1px 1px 0px #ffffff,
+                inset -1px -1px 0px #824f22,
+                2px 2px 0px rgba(0,0,0,0.3);
+            text-shadow: 0px 1px 0px #ffeedd;
+            transition: all 0.05s ease;
+            font-weight: 700;
+        }
+
+        .y2k-btn:active {
+            transform: translate(1px, 1px);
+            box-shadow: 
+                inset -1px -1px 0px #ffffff,
+                inset 1px 1px 0px #824f22,
+                1px 1px 0px rgba(0,0,0,0.3);
+            background: linear-gradient(180deg, #cc8b4b 0%, #e3ab72 100%);
+        }
+
+        .y2k-btn-primary {
+            background: linear-gradient(180deg, #f28b44 0%, #d96b27 50%, #ab4609 100%);
+            color: #ffffff;
+            text-shadow: 1px 1px 2px #421800;
+            border-color: #421800;
+        }
+
+        .y2k-btn-primary:active {
+            background: linear-gradient(180deg, #ab4609 0%, #d96b27 100%);
+        }
+
+        /* Win Media Player Frosted Glass Effect */
+        .glass-player {
+            background: rgba(237, 216, 184, 0.75);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(40, 10, 5, 0.37);
+        }
+
+        /* Retro LCD Screen Display */
+        .lcd-display {
+            background-color: #2b3a1a;
+            color: #92e034;
+            font-family: 'VT323', monospace;
+            text-shadow: 0 0 6px rgba(146, 224, 52, 0.6);
+            border: 2px solid #1a2410;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.8);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #d4bc96;
+            border: 1px solid #7c5837;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #e09753 0%, #a35d1e 100%);
+            border: 1px solid #ffffff;
+            box-shadow: inset -1px -1px 0px #502e0e;
+        }
+
+        /* Canvas Leaf Overlay */
+        #leaf-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        /* Custom Stamp/Sticker Badge */
+        .sticker-badge {
+            transform: rotate(-3deg);
+            transition: transform 0.2s ease, filter 0.2s;
+            filter: drop-shadow(2px 3px 0px rgba(0,0,0,0.25));
+        }
+        .sticker-badge:hover {
+            transform: rotate(2deg) scale(1.08);
+            filter: drop-shadow(3px 5px 0px rgba(0,0,0,0.3));
+        }
+
+        /* Tab Active State */
+        .y2k-tab {
+            background: linear-gradient(180deg, #ddc197 0%, #b89263 100%);
+            border: 2px solid #522312;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            margin-bottom: -2px;
+        }
+        .y2k-tab.active {
+            background: linear-gradient(180deg, #fcefdc 0%, #edd8b8 100%);
+            border-bottom: 2px solid #edd8b8;
+            font-weight: bold;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Leaf Particle Canvas -->
+    <canvas id="leaf-canvas"></canvas>
+
+    <!-- Top Navigation Bar (Y2K Desktop Toolbar Style) -->
+    <header class="bg-gradient-to-r from-amber-950 via-amber-900 to-red-950 text-amber-100 p-2 border-b-4 border-amber-700 shadow-lg sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center border-2 border-amber-300 shadow-inner">
+                    <i class="fa-solid fa-leaf text-amber-100 text-lg animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="silkscreen text-base sm:text-xl tracking-wider text-amber-200 drop-shadow">FAILURES_10K.EXE</h1>
+                    <p class="text-xs text-amber-300/80 hidden sm:block handwritten text-sm">"10,000 stumbles pave the golden autumn road..."</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-2 text-xs">
+                <!-- Retro Audio Sound FX Toggle -->
+                <button id="sound-toggle" onclick="toggleAudio()" class="y2k-btn px-3 py-1 flex items-center gap-1.5 text-amber-950">
+                    <i class="fa-solid fa-volume-high text-amber-800" id="sound-icon"></i>
+                    <span class="pixel-font text-sm">SFX: ON</span>
+                </button>
+
+                <!-- Weather/Vibe Widget -->
+                <div class="hidden md:flex items-center gap-2 bg-amber-950/60 px-3 py-1 rounded-md border border-amber-700/50">
+                    <i class="fa-solid fa-cloud-sun text-amber-400"></i>
+                    <span class="pixel-font text-amber-200 text-sm">AUTUMN '04 // 62°F COZY</span>
+                </div>
+
+                <button onclick="openModal('new-skill-modal')" class="y2k-btn y2k-btn-primary px-3 py-1 text-xs sm:text-sm flex items-center gap-1">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>NEW SKILL</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-6xl mx-auto w-full p-3 sm:p-6 space-y-6 flex-grow">
+
+        <!-- Banner & Marquee Status -->
+        <div class="y2k-window p-3 relative overflow-hidden">
+            <div class="flex items-center justify-between bg-amber-900/10 p-2 rounded border border-amber-800/20 mb-2">
+                <div class="flex items-center space-x-2">
+                    <span class="inline-block w-3 h-3 rounded-full bg-red-500 border border-amber-950"></span>
+                    <span class="inline-block w-3 h-3 rounded-full bg-amber-500 border border-amber-950"></span>
+                    <span class="inline-block w-3 h-3 rounded-full bg-green-500 border border-amber-950"></span>
+                    <span class="pixel-font text-sm text-amber-900 font-bold ml-2">SYSTEM STATUS: MASTERY IN PROGRESS</span>
+                </div>
+                <div id="digital-clock" class="lcd-display px-2 py-0.5 rounded text-xs tracking-widest">
+                    00:00:00 AM
+                </div>
+            </div>
+
+            <div class="bg-amber-950 text-amber-300 px-3 py-1 rounded text-xs silkscreen overflow-hidden whitespace-nowrap">
+                <div id="marquee-text" class="inline-block animate-marquee">
+                    🍁 REPETITION IS THE MOTHER OF SKILL 🍁 EVERY FAILURE IS A REPETITION LOGGED 🍁 TARGET: 10,000 ATTEMPTS 🍁 FAILING FORWARD SINCE 2004 🍁
+                </div>
+            </div>
+        </div>
+
+        <!-- Global Stats Ribbon -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="y2k-window p-3 text-center">
+                <div class="text-xs uppercase font-bold text-amber-900/70 silkscreen">Total Repeats Logged</div>
+                <div id="stat-total-repeats" class="pixel-font text-3xl sm:text-4xl text-amber-900 font-bold">0</div>
+                <div class="text-[10px] text-amber-800 handwritten">Across all active pursuits</div>
+            </div>
+            <div class="y2k-window p-3 text-center">
+                <div class="text-xs uppercase font-bold text-amber-900/70 silkscreen">Active Pursuits</div>
+                <div id="stat-active-skills" class="pixel-font text-3xl sm:text-4xl text-red-900 font-bold">0</div>
+                <div class="text-[10px] text-amber-800 handwritten">Skills being mastered</div>
+            </div>
+            <div class="y2k-window p-3 text-center">
+                <div class="text-xs uppercase font-bold text-amber-900/70 silkscreen">Total Milestones</div>
+                <div id="stat-milestones" class="pixel-font text-3xl sm:text-4xl text-amber-700 font-bold">0 / 0</div>
+                <div class="text-[10px] text-amber-800 handwritten">Stickers unlocked</div>
+            </div>
+            <div class="y2k-window p-3 text-center">
+                <div class="text-xs uppercase font-bold text-amber-900/70 silkscreen">Overall Mastery</div>
+                <div id="stat-overall-percent" class="pixel-font text-3xl sm:text-4xl text-emerald-800 font-bold">0.0%</div>
+                <div class="text-[10px] text-amber-800 handwritten">Path to 10,000 average</div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex space-x-2 border-b-2 border-amber-900/40 px-2">
+            <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="y2k-tab active px-4 py-2 text-sm text-amber-950 font-bold flex items-center gap-2">
+                <i class="fa-solid fa-border-all"></i>
+                <span>PURSUITS DASHBOARD</span>
+            </button>
+            <button onclick="switchTab('journal')" id="tab-btn-journal" class="y2k-tab px-4 py-2 text-sm text-amber-950 flex items-center gap-2">
+                <i class="fa-solid fa-book-bookmark"></i>
+                <span>THE FAILURE JOURNAL</span>
+            </button>
+            <button onclick="switchTab('milestones')" id="tab-btn-milestones" class="y2k-tab px-4 py-2 text-sm text-amber-950 flex items-center gap-2">
+                <i class="fa-solid fa-certificate"></i>
+                <span>BADGES & STICKERS</span>
+            </button>
+        </div>
+
+        <!-- TAB CONTENT 1: SKILLS DASHBOARD -->
+        <section id="tab-dashboard" class="space-y-6">
+            <!-- Grid of Skill Cards -->
+            <div id="skills-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamically populated skills cards go here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-skills-state" class="hidden y2k-window p-8 text-center space-y-4">
+                <div class="w-16 h-16 bg-amber-200 rounded-full flex items-center justify-center mx-auto border-2 border-amber-700 text-amber-800 text-2xl">
+                    <i class="fa-solid fa-compass-drafting"></i>
+                </div>
+                <h3 class="silkscreen text-lg text-amber-950">NO MASTERY PURSUITS ADDED YET!</h3>
+                <p class="text-sm text-amber-900 max-w-md mx-auto">
+                    According to the 10,000 Failures Theory, complete mastery requires roughly 10,000 deliberate attempts, experiments, or stumbles. Start your journey today!
+                </p>
+                <button onclick="openModal('new-skill-modal')" class="y2k-btn y2k-btn-primary px-6 py-2 text-sm">
+                    <i class="fa-solid fa-plus mr-1"></i> CREATE FIRST PURSUIT
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB CONTENT 2: REFLECTION JOURNAL -->
+        <section id="tab-journal" class="hidden space-y-4">
+            <div class="y2k-window p-4">
+                <div class="y2k-window-header p-2 rounded -mt-2 -mx-2 mb-4 flex justify-between items-center">
+                    <span class="silkscreen text-xs sm:text-sm"><i class="fa-solid fa-feather-pointed mr-2"></i>THE LOG OF HONEST STUMBLES</span>
+                    <span class="text-xs handwritten">"We grow through what we go through"</span>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-4 bg-amber-900/10 p-2 rounded border border-amber-800/20">
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs font-bold text-amber-950 silkscreen">Filter Pursuit:</label>
+                        <select id="journal-filter-skill" onchange="renderJournal()" class="bg-amber-50 border border-amber-800 rounded text-xs p-1 text-amber-950">
+                            <option value="ALL">All Pursuits</option>
+                        </select>
+                    </div>
+                    <div class="text-xs text-amber-800 pixel-font text-base" id="journal-count-indicator">
+                        Showing 0 reflections
+                    </div>
+                </div>
+
+                <!-- Journal List -->
+                <div id="journal-entries-container" class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                    <!-- Dynamic journal log cards will go here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB CONTENT 3: MILESTONE STICKERS -->
+        <section id="tab-milestones" class="hidden space-y-4">
+            <div class="y2k-window p-4">
+                <div class="y2k-window-header p-2 rounded -mt-2 -mx-2 mb-4">
+                    <span class="silkscreen text-xs sm:text-sm"><i class="fa-solid fa-ribbon mr-2"></i>EARLY 2000s ACHIEVEMENT STICKER ALBUM</span>
+                </div>
+                <p class="text-sm text-amber-900 mb-6 handwritten text-base">
+                    As you log repetitions across your pursuits, unlock nostalgic autumn achievement stickers! Every milestone marks a key tier on the path to 10,000 attempts.
+                </p>
+
+                <div id="milestone-gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                    <!-- Dynamically loaded sticker items -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL 1: ADD NEW SKILL -->
+    <div id="new-skill-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="y2k-window max-w-md w-full p-4 relative animate-bounce-in">
+            <div class="y2k-window-header p-2 rounded -mt-2 -mx-2 mb-4 flex justify-between items-center">
+                <span class="silkscreen text-xs"><i class="fa-solid fa-folder-plus mr-1"></i> NEW_MASTERY_PURSUIT.EXE</span>
+                <button onclick="closeModal('new-skill-modal')" class="w-5 h-5 bg-red-700 text-white rounded flex items-center justify-center text-xs font-bold hover:bg-red-800">×</button>
+            </div>
+
+            <form onsubmit="handleCreateSkill(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Pursuit / Skill Title:</label>
+                    <input type="text" id="skill-title-input" required placeholder="e.g. Jazz Piano Improvisation, Rust Programming, Oil Painting" 
+                           class="w-full bg-amber-50 border-2 border-amber-900 rounded p-2 text-sm text-amber-950 focus:outline-none focus:ring-2 focus:ring-amber-600">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Category:</label>
+                    <select id="skill-category-input" class="w-full bg-amber-50 border-2 border-amber-900 rounded p-2 text-sm text-amber-950">
+                        <option value="Coding & Tech">💻 Coding & Tech</option>
+                        <option value="Creative Arts">🎨 Creative Arts & Craft</option>
+                        <option value="Writing & Prose">📚 Writing & Prose</option>
+                        <option value="Music & Audio">🎸 Music & Audio</option>
+                        <option value="Languages">🗣️ Language Learning</option>
+                        <option value="Physical & Movement">🍂 Physical & Sports</option>
+                        <option value="Science & Math">🔬 Science & Mathematics</option>
+                        <option value="General Pursuit">🍁 General Pursuit</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Initial Attempt Count (if already started):</label>
+                    <input type="number" id="skill-initial-count" min="0" max="10000" value="0"
+                           class="w-full bg-amber-50 border-2 border-amber-900 rounded p-2 text-sm text-amber-950">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Custom Color Vibe:</label>
+                    <div class="flex space-x-3">
+                        <label class="cursor-pointer flex items-center gap-1">
+                            <input type="radio" name="skill-color" value="burgundy" checked>
+                            <span class="w-4 h-4 rounded-full bg-red-900 inline-block border border-amber-900"></span>
+                            <span class="text-xs">Burgundy</span>
+                        </label>
+                        <label class="cursor-pointer flex items-center gap-1">
+                            <input type="radio" name="skill-color" value="orange">
+                            <span class="w-4 h-4 rounded-full bg-orange-600 inline-block border border-amber-900"></span>
+                            <span class="text-xs">Maple</span>
+                        </label>
+                        <label class="cursor-pointer flex items-center gap-1">
+                            <input type="radio" name="skill-color" value="moss">
+                            <span class="w-4 h-4 rounded-full bg-emerald-800 inline-block border border-amber-900"></span>
+                            <span class="text-xs">Moss</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('new-skill-modal')" class="y2k-btn px-4 py-1.5 text-xs text-amber-950">CANCEL</button>
+                    <button type="submit" class="y2k-btn y2k-btn-primary px-4 py-1.5 text-xs">CREATE PURSUIT</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: QUICK INCREMENT / FAILURE LOG DIALOG -->
+    <div id="increment-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="y2k-window max-w-md w-full p-4 relative">
+            <div class="y2k-window-header p-2 rounded -mt-2 -mx-2 mb-4 flex justify-between items-center">
+                <span class="silkscreen text-xs" id="inc-modal-title"><i class="fa-solid fa-plus-minus mr-1"></i> LOG_ATTEMPT.EXE</span>
+                <button onclick="closeModal('increment-modal')" class="w-5 h-5 bg-red-700 text-white rounded flex items-center justify-center text-xs font-bold">×</button>
+            </div>
+
+            <form onsubmit="handleLogAttempt(event)" class="space-y-4">
+                <input type="hidden" id="inc-skill-id">
+
+                <div class="bg-amber-900/10 p-3 rounded border border-amber-800/30 text-center">
+                    <span class="text-xs font-bold silkscreen text-amber-950 block" id="inc-skill-name-display">Skill Name</span>
+                    <span class="text-xs text-amber-800 handwritten">Current Progress: <strong id="inc-current-count">0</strong> / 10,000</span>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Number of Attempts / Repeats to Add:</label>
+                    <div class="flex items-center space-x-2">
+                        <button type="button" onclick="setIncAmount(1)" class="y2k-btn px-3 py-1 text-xs">+1</button>
+                        <button type="button" onclick="setIncAmount(5)" class="y2k-btn px-3 py-1 text-xs">+5</button>
+                        <button type="button" onclick="setIncAmount(10)" class="y2k-btn px-3 py-1 text-xs">+10</button>
+                        <button type="button" onclick="setIncAmount(50)" class="y2k-btn px-3 py-1 text-xs">+50</button>
+                        <input type="number" id="inc-amount-input" min="1" max="1000" value="1" required
+                               class="w-20 bg-amber-50 border-2 border-amber-900 rounded p-1.5 text-center text-sm font-bold text-amber-950">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold silkscreen text-amber-950 mb-1">Failure Log Note / Reflection (Optional):</label>
+                    <textarea id="inc-reflection-input" rows="3" placeholder="What did you attempt? What broke? What insight did you gain from this failure?"
+                              class="w-full bg-amber-50 border-2 border-amber-900 rounded p-2 text-xs text-amber-950 focus:outline-none focus:ring-2 focus:ring-amber-600 handwritten text-base"></textarea>
+                </div>
+
+                <div class="pt-2 flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('increment-modal')" class="y2k-btn px-4 py-1.5 text-xs text-amber-950">CANCEL</button>
+                    <button type="submit" class="y2k-btn y2k-btn-primary px-4 py-1.5 text-xs">LOG REPETITIONS</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-amber-950 text-amber-400 p-4 border-t-2 border-amber-800 text-center text-xs space-y-2 mt-8">
+        <div class="flex justify-center items-center space-x-4">
+            <span class="silkscreen text-amber-300">10,000 FAILURES THEORY</span>
+            <span>•</span>
+            <span class="handwritten text-sm text-amber-200">Embrace the messy, glorious path to mastery</span>
+            <span>•</span>
+            <button onclick="resetAllData()" class="text-xs text-red-400 hover:underline">Reset All Data</button>
+        </div>
+        <div class="text-[10px] text-amber-600 font-mono">
+            Designed with Y2K nostalgia & cozy autumn foliage • Local Storage Enabled
+        </div>
+    </footer>
+
+    <script>
+        /* ==========================================================================
+           1. INITIAL STATE & MILESTONE DEFINITIONS
+           ========================================================================== */
+        const MILESTONES = [
+            { count: 100, name: "First Spark", icon: "fa-seedling", desc: "First 100 failures logged. The journey has begun!" },
+            { count: 500, name: "Autumn Apprentice", icon: "fa-leaf", desc: "500 repetitions. Building solid muscle memory." },
+            { count: 1000, name: "1K Stumbler", icon: "fa-fire-flame-curved", desc: "1,000 attempts! You are 10% on the path to mastery." },
+            { count: 2500, name: "Resilient Craftsman", icon: "fa-shield-halved", desc: "2,500 failures. Obstacles become your roadmap." },
+            { count: 5000, name: "Halfway Veteran", icon: "fa-tree", desc: "5,000 repeats! The halfway point of deep deliberate practice." },
+            { count: 10000, name: "Grand Master", icon: "fa-crown", desc: "10,000 FAILURES LOGGED. Complete mastery achieved!" }
+        ];
+
+        let state = {
+            skills: [],
+            logs: [],
+            soundEnabled: true
+        };
+
+        // Audio Effects Synth (using Web Audio API for zero external asset dependency)
+        let audioCtx = null;
+
+        function playSound(type) {
+            if (!state.soundEnabled) return;
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'click') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.05);
+                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.05);
+                } else if (type === 'milestone') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(554.37, audioCtx.currentTime + 0.1); // C#5
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.2); // E5
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                }
+            } catch (e) {
+                console.log("Audio play error:", e);
+            }
+        }
+
+        function toggleAudio() {
+            state.soundEnabled = !state.soundEnabled;
+            const btn = document.getElementById('sound-toggle');
+            const icon = document.getElementById('sound-icon');
+            if (state.soundEnabled) {
+                icon.className = "fa-solid fa-volume-high text-amber-800";
+                btn.querySelector('span').innerText = "SFX: ON";
+                playSound('click');
+            } else {
+                icon.className = "fa-solid fa-volume-xmark text-red-800";
+                btn.querySelector('span').innerText = "SFX: OFF";
+            }
+            saveState();
+        }
+
+        /* ==========================================================================
+           2. LOCAL STORAGE & INITIALIZATION
+           ========================================================================== */
+        function loadState() {
+            const saved = localStorage.getItem('10k_failures_state_v1');
+            if (saved) {
+                try {
+                    state = JSON.parse(saved);
+                } catch (e) {
+                    console.error("Failed to parse state", e);
+                    initDefaultData();
+                }
+            } else {
+                initDefaultData();
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('10k_failures_state_v1', JSON.stringify(state));
+            updateStatsSummary();
+        }
+
+        function initDefaultData() {
+            state = {
+                soundEnabled: true,
+                skills: [
+                    {
+                        id: 's_1',
+                        title: 'Web App Development',
+                        category: 'Coding & Tech',
+                        count: 420,
+                        color: 'burgundy',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 's_2',
+                        title: 'Acoustic Guitar Fingerpicking',
+                        category: 'Music & Audio',
+                        count: 1250,
+                        color: 'orange',
+                        createdAt: new Date().toISOString()
+                    }
+                ],
+                logs: [
+                    {
+                        id: 'l_1',
+                        skillId: 's_1',
+                        skillTitle: 'Web App Development',
+                        amount: 5,
+                        note: 'Tried implementing custom matrix canvas shader. FPS dropped to 10 - learned about batching draw calls!',
+                        timestamp: new Date(Date.now() - 86400000 * 2).toISOString()
+                    },
+                    {
+                        id: 'l_2',
+                        skillId: 's_2',
+                        skillTitle: 'Acoustic Guitar Fingerpicking',
+                        amount: 10,
+                        note: 'BPM set to 120 on Travis picking drill. Pinky finger slipped constantly, but rhythmic feel improved slightly.',
+                        timestamp: new Date(Date.now() - 86400000 * 1).toISOString()
+                    }
+                ]
+            };
+            saveState();
+        }
+
+        /* ==========================================================================
+           3. UI CONTROLLERS & RENDERING
+           ========================================================================== */
+        function switchTab(tabName) {
+            playSound('click');
+            ['dashboard', 'journal', 'milestones'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`tab-btn-${t}`).classList.remove('active');
+            });
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+
+            if (tabName === 'journal') renderJournal();
+            if (tabName === 'milestones') renderMilestones();
+        }
+
+        function renderSkills() {
+            const container = document.getElementById('skills-container');
+            const emptyState = document.getElementById('empty-skills-state');
+            container.innerHTML = '';
+
+            if (state.skills.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            state.skills.forEach(skill => {
+                const percent = ((skill.count / 10000) * 100).toFixed(1);
+                
+                // Determine unlocked milestones
+                const unlocked = MILESTONES.filter(m => skill.count >= m.count);
+                const nextMilestone = MILESTONES.find(m => skill.count < m.count) || MILESTONES[MILESTONES.length - 1];
+
+                let themeHeader = "from-amber-900 to-red-950";
+                if (skill.color === 'orange') themeHeader = "from-orange-800 to-amber-900";
+                if (skill.color === 'moss') themeHeader = "from-emerald-900 to-amber-950";
+
+                const cardHtml = `
+                    <div class="y2k-window flex flex-col justify-between p-4 relative group">
+                        <div>
+                            <!-- Card Header Bar -->
+                            <div class="y2k-window-header p-2 rounded -mt-2 -mx-2 mb-3 bg-gradient-to-r ${themeHeader} flex justify-between items-center">
+                                <div class="flex items-center space-x-2 truncate">
+                                    <span class="text-xs px-1.5 py-0.5 rounded bg-amber-950/60 border border-amber-600/40 text-amber-200 uppercase silkscreen">${skill.category}</span>
+                                    <h2 class="font-bold text-sm sm:text-base text-amber-100 truncate">${escapeHtml(skill.title)}</h2>
+                                </div>
+                                <button onclick="deleteSkill('${skill.id}')" class="text-amber-300 hover:text-red-300 text-xs px-1" title="Delete Pursuit">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+
+                            <!-- Big Counter Display -->
+                            <div class="flex items-end justify-between my-2 bg-amber-900/10 p-3 rounded border border-amber-800/20">
+                                <div>
+                                    <span class="text-xs uppercase silkscreen text-amber-900 block">Failures / Repeats</span>
+                                    <div class="pixel-font text-4xl sm:text-5xl font-bold text-amber-950 tracking-tight">
+                                        ${skill.count.toLocaleString()} <span class="text-lg text-amber-800 font-normal">/ 10,000</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="lcd-display px-2 py-1 rounded text-base block font-bold">
+                                        ${percent}%
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Progress Bar -->
+                            <div class="space-y-1 my-3">
+                                <div class="flex justify-between text-xs text-amber-900 font-bold silkscreen">
+                                    <span>PROGRESS BAR</span>
+                                    <span>NEXT: ${nextMilestone.count.toLocaleString()} (${nextMilestone.name})</span>
+                                </div>
+                                <div class="w-full bg-amber-950/20 rounded-full h-4 p-0.5 border border-amber-900/40 shadow-inner">
+                                    <div class="bg-gradient-to-r from-amber-600 via-orange-500 to-red-600 h-full rounded-full transition-all duration-500" 
+                                         style="width: ${Math.min(100, Math.max(1, percent))}%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Badges unlocked for this skill -->
+                            <div class="flex items-center space-x-2 my-3 overflow-x-auto py-1">
+                                <span class="text-[10px] silkscreen text-amber-900 font-bold">BADGES:</span>
+                                ${MILESTONES.map(m => {
+                                    const isUnlocked = skill.count >= m.count;
+                                    return `
+                                        <div class="inline-flex items-center justify-center w-7 h-7 rounded-full border border-amber-900 text-xs ${isUnlocked ? 'bg-amber-400 text-amber-950 shadow' : 'bg-amber-900/20 text-amber-900/30'}" 
+                                             title="${m.name} (${m.count} attempts)">
+                                            <i class="fa-solid ${m.icon}"></i>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="pt-3 border-t border-amber-800/20 flex flex-wrap gap-2">
+                            <button onclick="quickAdd('${skill.id}', 1)" class="y2k-btn px-2.5 py-1 text-xs flex-1">+1 REPEAT</button>
+                            <button onclick="quickAdd('${skill.id}', 5)" class="y2k-btn px-2.5 py-1 text-xs flex-1">+5</button>
+                            <button onclick="quickAdd('${skill.id}', 10)" class="y2k-btn px-2.5 py-1 text-xs flex-1">+10</button>
+                            <button onclick="openIncrementModal('${skill.id}')" class="y2k-btn y2k-btn-primary px-3 py-1 text-xs flex-2">
+                                <i class="fa-solid fa-pen-to-square mr-1"></i> LOG NOTE
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        function renderJournal() {
+            const container = document.getElementById('journal-entries-container');
+            const filterSelect = document.getElementById('journal-filter-skill');
+            const countIndicator = document.getElementById('journal-count-indicator');
+
+            // Update filter dropdown options
+            const currentFilter = filterSelect.value || 'ALL';
+            filterSelect.innerHTML = '<option value="ALL">All Pursuits</option>';
+            state.skills.forEach(s => {
+                filterSelect.innerHTML += `<option value="${s.id}" ${currentFilter === s.id ? 'selected' : ''}>${escapeHtml(s.title)}</option>`;
+            });
+
+            // Filter logs
+            const filteredLogs = state.logs.filter(log => {
+                if (currentFilter === 'ALL') return true;
+                return log.skillId === currentFilter;
+            }).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            countIndicator.innerText = `Showing ${filteredLogs.length} entries`;
+
+            if (filteredLogs.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-amber-900">
+                        <i class="fa-solid fa-book-open text-3xl mb-2 opacity-50"></i>
+                        <p class="handwritten text-lg">No reflection logs found for this view.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredLogs.map(log => {
+                const dateStr = new Date(log.timestamp).toLocaleDateString(undefined, {
+                    month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+
+                return `
+                    <div class="bg-amber-100/80 border-2 border-amber-900/60 rounded p-3 shadow-sm relative">
+                        <div class="flex justify-between items-start gap-2 border-b border-amber-900/20 pb-1 mb-2">
+                            <div>
+                                <span class="font-bold text-xs silkscreen text-amber-950">${escapeHtml(log.skillTitle)}</span>
+                                <span class="text-[10px] ml-2 px-1.5 py-0.2 bg-amber-800 text-amber-100 rounded pixel-font">+${log.amount} REPEATS</span>
+                            </div>
+                            <span class="text-[11px] text-amber-800 font-mono">${dateStr}</span>
+                        </div>
+                        <p class="text-xs text-amber-950 handwritten text-base leading-snug">
+                            "${escapeHtml(log.note || 'No note attached.')}"
+                        </p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderMilestones() {
+            const gallery = document.getElementById('milestone-gallery');
+            gallery.innerHTML = '';
+
+            // Calculate total highest count achieved in any single skill
+            const maxSkillCount = state.skills.reduce((max, s) => Math.max(max, s.count), 0);
+
+            MILESTONES.forEach(m => {
+                const isUnlocked = maxSkillCount >= m.count;
+                const card = `
+                    <div class="y2k-window p-3 text-center flex flex-col items-center justify-between ${isUnlocked ? '' : 'opacity-60 grayscale'}">
+                        <div class="sticker-badge w-14 h-14 rounded-full bg-gradient-to-br from-amber-300 via-orange-400 to-red-500 border-2 border-amber-950 flex items-center justify-center my-2 shadow-md">
+                            <i class="fa-solid ${m.icon} text-amber-950 text-2xl"></i>
+                        </div>
+                        <div>
+                            <div class="silkscreen text-xs text-amber-950 font-bold mt-1">${m.name}</div>
+                            <div class="pixel-font text-amber-800 text-sm font-bold">${m.count.toLocaleString()} ATTEMPTS</div>
+                            <p class="text-[10px] text-amber-900 handwritten mt-1 line-clamp-2">${m.desc}</p>
+                        </div>
+                        <div class="mt-2 text-[10px] uppercase font-bold silkscreen px-2 py-0.5 rounded ${isUnlocked ? 'bg-green-700 text-green-100' : 'bg-amber-900/20 text-amber-900'}">
+                            ${isUnlocked ? 'UNLOCKED' : 'LOCKED'}
+                        </div>
+                    </div>
+                `;
+                gallery.innerHTML += card;
+            });
+        }
+
+        function updateStatsSummary() {
+            const totalRepeats = state.skills.reduce((sum, s) => sum + s.count, 0);
+            const activeSkills = state.skills.length;
+            
+            // Total unlocked milestones count across all skills
+            let unlockedCount = 0;
+            state.skills.forEach(s => {
+                unlockedCount += MILESTONES.filter(m => s.count >= m.count).length;
+            });
+            const totalPossibleMilestones = activeSkills * MILESTONES.length;
+
+            const overallPercent = activeSkills > 0 
+                ? ((totalRepeats / (activeSkills * 10000)) * 100).toFixed(1) 
+                : "0.0";
+
+            document.getElementById('stat-total-repeats').innerText = totalRepeats.toLocaleString();
+            document.getElementById('stat-active-skills').innerText = activeSkills;
+            document.getElementById('stat-milestones').innerText = `${unlockedCount} / ${totalPossibleMilestones}`;
+            document.getElementById('stat-overall-percent').innerText = `${overallPercent}%`;
+
+            renderSkills();
+        }
+
+        /* ==========================================================================
+           4. MODAL & EVENT ACTIONS
+           ========================================================================== */
+        function openModal(modalId) {
+            playSound('click');
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            playSound('click');
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function handleCreateSkill(e) {
+            e.preventDefault();
+            const title = document.getElementById('skill-title-input').value.trim();
+            const category = document.getElementById('skill-category-input').value;
+            const count = parseInt(document.getElementById('skill-initial-count').value) || 0;
+            const color = document.querySelector('input[name="skill-color"]:checked').value;
+
+            if (!title) return;
+
+            const newSkill = {
+                id: 's_' + Date.now(),
+                title,
+                category,
+                count: Math.min(10000, Math.max(0, count)),
+                color,
+                createdAt: new Date().toISOString()
+            };
+
+            state.skills.push(newSkill);
+            
+            // Add initial log entry if starting count > 0
+            if (count > 0) {
+                state.logs.push({
+                    id: 'l_' + Date.now(),
+                    skillId: newSkill.id,
+                    skillTitle: newSkill.title,
+                    amount: count,
+                    note: 'Initial starting repetitions logged upon creation.',
+                    timestamp: new Date().toISOString()
+                });
+            }
+
+            saveState();
+            closeModal('new-skill-modal');
+            document.getElementById('skill-title-input').value = '';
+            playSound('milestone');
+        }
+
+        function quickAdd(skillId, amount) {
+            playSound('click');
+            const skill = state.skills.find(s => s.id === skillId);
+            if (!skill) return;
+
+            const prevCount = skill.count;
+            skill.count = Math.min(10000, skill.count + amount);
+
+            // Log entry
+            state.logs.push({
+                id: 'l_' + Date.now(),
+                skillId: skill.id,
+                skillTitle: skill.title,
+                amount: amount,
+                note: `Quick logged +${amount} repetition(s).`,
+                timestamp: new Date().toISOString()
+            });
+
+            // Check milestone sound trigger
+            const newlyUnlocked = MILESTONES.some(m => prevCount < m.count && skill.count >= m.count);
+            if (newlyUnlocked) playSound('milestone');
+
+            saveState();
+        }
+
+        function openIncrementModal(skillId) {
+            playSound('click');
+            const skill = state.skills.find(s => s.id === skillId);
+            if (!skill) return;
+
+            document.getElementById('inc-skill-id').value = skill.id;
+            document.getElementById('inc-skill-name-display').innerText = skill.title;
+            document.getElementById('inc-current-count').innerText = skill.count.toLocaleString();
+            document.getElementById('inc-amount-input').value = 1;
+            document.getElementById('inc-reflection-input').value = '';
+
+            openModal('increment-modal');
+        }
+
+        function setIncAmount(val) {
+            playSound('click');
+            document.getElementById('inc-amount-input').value = val;
+        }
+
+        function handleLogAttempt(e) {
+            e.preventDefault();
+            const skillId = document.getElementById('inc-skill-id').value;
+            const amount = parseInt(document.getElementById('inc-amount-input').value) || 1;
+            const note = document.getElementById('inc-reflection-input').value.trim();
+
+            const skill = state.skills.find(s => s.id === skillId);
+            if (!skill) return;
+
+            const prevCount = skill.count;
+            skill.count = Math.min(10000, skill.count + amount);
+
+            state.logs.push({
+                id: 'l_' + Date.now(),
+                skillId: skill.id,
+                skillTitle: skill.title,
+                amount: amount,
+                note: note || `Logged +${amount} repetition(s).`,
+                timestamp: new Date().toISOString()
+            });
+
+            const newlyUnlocked = MILESTONES.some(m => prevCount < m.count && skill.count >= m.count);
+            if (newlyUnlocked) playSound('milestone');
+
+            saveState();
+            closeModal('increment-modal');
+        }
+
+        function deleteSkill(skillId) {
+            if (confirm("Are you sure you want to delete this mastery pursuit? Logs will remain in memory.")) {
+                playSound('click');
+                state.skills = state.skills.filter(s => s.id !== skillId);
+                saveState();
+            }
+        }
+
+        function resetAllData() {
+            if (confirm("Reset all 10,000 Failures tracking data to default? This action cannot be undone.")) {
+                localStorage.removeItem('10k_failures_state_v1');
+                initDefaultData();
+                updateStatsSummary();
+            }
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        /* ==========================================================================
+           5. Y2K CANVAS LEAF ANIMATION ENGINE
+           ========================================================================== */
+        function initLeafAnimation() {
+            const canvas = document.getElementById('leaf-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const leaves = [];
+            const leafColors = ['#d96b27', '#6b1d2f', '#e59832', '#8c3d18', '#506138'];
+
+            for (let i = 0; i < 22; i++) {
+                leaves.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 8 + 6,
+                    speedY: Math.random() * 0.8 + 0.3,
+                    speedX: Math.random() * 0.6 - 0.3,
+                    angle: Math.random() * Math.PI * 2,
+                    spin: Math.random() * 0.02 - 0.01,
+                    color: leafColors[Math.floor(Math.random() * leafColors.length)]
+                });
+            }
+
+            function drawPixelLeaf(ctx, x, y, size, angle, color) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.fillStyle = color;
+                
+                // Pixelated leaf shape
+                ctx.fillRect(-size/2, -size/2, size, size);
+                ctx.fillRect(-size/4, -size, size/2, size*1.5);
+                ctx.fillRect(-size, -size/4, size*1.5, size/2);
+                
+                ctx.restore();
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                leaves.forEach(leaf => {
+                    leaf.y += leaf.speedY;
+                    leaf.x += Math.sin(leaf.y * 0.01) * 0.5 + leaf.speedX;
+                    leaf.angle += leaf.spin;
+
+                    if (leaf.y > canvas.height + 20) {
+                        leaf.y = -20;
+                        leaf.x = Math.random() * canvas.width;
+                    }
+
+                    drawPixelLeaf(ctx, leaf.x, leaf.y, leaf.size, leaf.angle, leaf.color);
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        /* ==========================================================================
+           6. CLOCK & APP INITIALIZATION
+           ========================================================================== */
+        function startClock() {
+            function updateClock() {
+                const now = new Date();
+                document.getElementById('digital-clock').innerText = now.toLocaleTimeString();
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        window.onload = function() {
+            loadState();
+            updateStatsSummary();
+            initLeafAnimation();
+            startClock();
+        };
+    </script>
+</body>
+</html>
